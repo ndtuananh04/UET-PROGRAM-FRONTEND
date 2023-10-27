@@ -2,42 +2,35 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-dropdown-select";
 
-const URL = 'http://localhost:8080/myprogram/attendances/new'
+const URL = 'http://localhost:8080/myprogram/facultyprograms/new'
 
 var check = 0;
-export default function AddAttendance() {
+export default function AddFacultyProgram() {
    
     const [post, setPost] = useState({
-        "studentId": "",
-        "programFullCode": "",
-        "startDate": "",
-        "endDate": ""
+        "facultyName": "",
+        "programFullCode": ""
     })
 
-    const [listStudentId, setListStudentId] = useState([])
+    const [listFacultyName, setListFacultyName] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
-    const [studentId, setStudentId] = useState("")
+    const [facultyName, setFacultyName] = useState("")
     const [programCode, setProgramCode] = useState("")
     
-    const getAttendanceInfo = (e) => {
+    const getFacultyProgramInfo = (e) => {
         // e.preventDefault()
         axios.get(URL)
             .then(response => {
             console.log(response.data)
-            setListStudentId(response.data.listOfStudentId)
+            setListFacultyName(response.data.listOfFacultyName)
             setListProgramCode(response.data.listOfProgramFullCode)
             })
             .catch(error => console.log(error));
     }
 
-
-    const handleInput = (event) => {
-        setPost({...post, [event.target.name]: event.target.value})
-    }
-
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, studentId: studentId})
+        setPost({...post, facultyName: facultyName})
         console.log("submitnay")
     }
     
@@ -46,7 +39,7 @@ export default function AddAttendance() {
                 console.log("first")
                 setPost({...post, programFullCode: programCode})
             } 
-    }, [post.studentId]);
+    }, [post.facultyName]);
 
     useEffect(() => {
         if (check > 1) {
@@ -62,20 +55,20 @@ export default function AddAttendance() {
     return (
         <div className="container">
             {
-              listStudentId.length < 1 ? getAttendanceInfo() : ''
+              listFacultyName.length < 1 ? getFacultyProgramInfo() : ''
             }
             <br></br>
             <div>
-                <h1 className="text-center">Add Attendance</h1>
+                <h1 className="text-center">Add Falcuty-Program</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Student ID:</label>
+                    <label>Faculty:</label>
                     <Select 
-                        name="studentId"
-                        options={listStudentId.map(tt=>({value: tt, label: tt}))}
+                        name="facultyName"
+                        options={listFacultyName.map(tt=>({value: tt, label: tt}))}
                         placeholder='None Selected'
-                        onChange={e => setStudentId(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setFacultyName(((e.map(obj => obj.value))).toString())}
                         className="form-control"
                     >
                     </Select><br></br>
@@ -91,14 +84,8 @@ export default function AddAttendance() {
                     >
                     </Select><br></br>
                 </div>
-                <div className="form-group">
-                    <label>Start Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>End Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
-                </div>
+                
+            
                 <br></br>
                 <button className="btn btn-primary">Submit</button>
             </form>

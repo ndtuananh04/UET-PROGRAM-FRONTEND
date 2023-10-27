@@ -1,33 +1,29 @@
 import axios from 'axios';
-import React, { useState,useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import UpSubject from './UpSubject';
+import React, { useState, useEffect } from 'react';
 import Select from "react-dropdown-select";
 
-var subjectList={
-    "subjectid": "",
-    "subjectName": "",
-    "credit": 0,
-    "roleType": "",
-    "prerequisiteSubjectId": [],
-    "listRoleType": [
-        "MANDATORY",
-        "OPTIONAL",
-        "OPTIONALREINFORCEMENT",
-        "PHYSICAL",
-        "NATIONALDEFENCE",
-        "ADDITIONAL",
-        "GRADUATIONINTERSHIP"
-    ],
-    "listOfSubjectId": []
-};
-var x = true
-var y = true
-var check = 0
+// var subjectList={
+//     "subjectid": "",
+//     "subjectName": "",
+//     "credit": 0,
+//     "roleType": "",
+//     "prerequisiteSubjectId": [],
+//     "listRoleType": [
+//         "MANDATORY",
+//         "OPTIONAL",
+//         "OPTIONALREINFORCEMENT",
+//         "PHYSICAL",
+//         "NATIONALDEFENCE",
+//         "ADDITIONAL",
+//         "GRADUATIONINTERSHIP"
+//     ],
+//     "listOfSubjectId": []
+// };
+
 const URL = 'http://localhost:8080/myprogram/subjects/new'
 
+var check = 0;
 export default function AddSubject() {
-  
    
     const [post, setPost] = useState({
         "subjectid": "",
@@ -36,81 +32,39 @@ export default function AddSubject() {
         "roleType": "",
         "prerequisiteSubjectId": []
     })
+
     const [subjectList, setSubjectList] = useState([])
     const [roleTypeList, setRoleTypeList] = useState([])
     const [value, setValue] = useState([])
     const [typeRole, setTypeRole] = useState("")
+    
     const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
-    const handleInput2 = (e) => {
-        console.log("danginput")
-        setTypeRole(((e.map(obj => obj.value))).toString());
-        setPost({...post, roleType: typeRole})
-        console.log(post)
-        console.log("ketthucinput")
-    }
+
     function handleSubmit(event) {
         event.preventDefault();
         setPost({...post, roleType: typeRole})
-        if(value.length === 0) {
-        x=false;
-        } else {
-            console.log(typeRole);
-         console.log(value);
-        
-        setPost({...post, prerequisiteSubjectId: value})
-        }
+        console.log("submitnay")
     }
     
+    useEffect(() => {   
+        if (post.roleType !== "") {
+                console.log("roleTypefirst")
+                setPost({...post, prerequisiteSubjectId: value})
+            } 
+    }, [post.roleType]);
+
     useEffect(() => {
-        if (x === true) {
-            console.log("123")
-            
-            if (post.prerequisiteSubjectId.length > 0) {
-                console.log("hha")
-                y=false;
-                console.log(post);
-                
-                if(post.roleType !== "") {
-                    console.log(post)
-                    console.log("ght")
-                    axios.post(URL, post)
-                    .then(response => console.log(response))
-                    .catch(err => console.log(err));
-                    
-                }
-            } 
-        } else {
-            if (post.roleType !== "") {
-                console.log(post)
+        if (check > 1) {
+            console.log("dc roi")
                 axios.post(URL, post)
-                    .then(response => console.log(response))
-                    .catch(err => console.log(err));
-            } 
+                .then(response => console.log(response))
+                .catch(err => console.log(err));
         }
-        
-    }, [post]);
+        check++;
+    }, [post.prerequisiteSubjectId])
 
-    // useEffect(() => {
-    //         if (post.roleType !== "") {
-    //             console.log(post)
-    //             axios.post(URL, post)
-    //                 .then(response => console.log(response))
-    //                 .catch(err => console.log(err));
-    //         } 
-        
-    // },[post.roleType])
-
-    // useEffect(() => {
-    //     if (post.roleType !== "") {
-    //         console.log(post)
-    //         axios.post(URL, post)
-    //             .then(response => console.log(response))
-    //             .catch(err => console.log(err));
-    //     } 
-    
-    // },[post])
     const getSubjects = (e) => {
         // e.preventDefault()
         axios.get(URL)
@@ -123,7 +77,7 @@ export default function AddSubject() {
     }
 
     return (
-        <div className="container ">
+        <div className="container">
             {
               subjectList.length < 1 ? getSubjects() : ''
             }
@@ -146,24 +100,14 @@ export default function AddSubject() {
                 </div>
                 <div className="form-group">
                     <label>Role Type:</label>
-                    {/* <select className="form-control" onChange={handleInput} name="roleType">
-                        <option>-Choose-</option>
-                        <option>MANDATORY</option>
-                        <option>OPTIONAL</option>
-                        <option>OPTIONALREINFORCEMENT</option>
-                        <option>PHYSICAL</option>
-                        <option>NATIONALDEFENCE</option>
-                        <option>ADDITIONAL</option>
-                        <option>GRADUATIONINTERSHIP</option>
-                    </select><br></br> */}
                     <Select 
                         name="roleType"
                         options={roleTypeList.map(tt=>({value: tt, label: tt}))}
                         placeholder='None Selected'
-                        onChange={handleInput2}
+                        onChange={e => setTypeRole(((e.map(obj => obj.value))).toString())}
                         className="form-control"
                     >
-                    </Select>
+                    </Select><br></br>
                 </div>
                 <div className="form-group">
                     <label>Prerequisite Subject:</label>

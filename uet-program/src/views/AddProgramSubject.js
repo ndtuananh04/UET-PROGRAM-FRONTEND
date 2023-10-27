@@ -2,51 +2,44 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-dropdown-select";
 
-const URL = 'http://localhost:8080/myprogram/attendances/new'
+const URL = 'http://localhost:8080/myprogram/programsubjects/new'
 
 var check = 0;
-export default function AddAttendance() {
+export default function AddProgramSubject() {
    
     const [post, setPost] = useState({
-        "studentId": "",
         "programFullCode": "",
-        "startDate": "",
-        "endDate": ""
+        "subjectId": ""
     })
 
-    const [listStudentId, setListStudentId] = useState([])
+    const [listSubjectId, setListSubjectId] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
-    const [studentId, setStudentId] = useState("")
+    const [subjectId, setSubjectId] = useState("")
     const [programCode, setProgramCode] = useState("")
     
-    const getAttendanceInfo = (e) => {
+    const getProgramSubjectInfo = (e) => {
         // e.preventDefault()
         axios.get(URL)
             .then(response => {
             console.log(response.data)
-            setListStudentId(response.data.listOfStudentId)
+            setListSubjectId(response.data.listOfSubjectId)
             setListProgramCode(response.data.listOfProgramFullCode)
             })
             .catch(error => console.log(error));
     }
 
-
-    const handleInput = (event) => {
-        setPost({...post, [event.target.name]: event.target.value})
-    }
-
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, studentId: studentId})
+        setPost({...post, programFullCode: programCode})
         console.log("submitnay")
     }
     
     useEffect(() => {   
-        if (post.studentId !== "") {
+        if (post.programFullCode !== "") {
                 console.log("first")
-                setPost({...post, programFullCode: programCode})
+                setPost({...post, subjectId: subjectId})
             } 
-    }, [post.studentId]);
+    }, [post.programFullCode]);
 
     useEffect(() => {
         if (check > 1) {
@@ -57,31 +50,20 @@ export default function AddAttendance() {
                 .catch(err => console.log(err));
         }
         check++;
-    }, [post.programFullCode])
+    }, [post.subjectId])
 
     return (
         <div className="container">
             {
-              listStudentId.length < 1 ? getAttendanceInfo() : ''
+              listProgramCode.length < 1 ? getProgramSubjectInfo() : ''
             }
             <br></br>
             <div>
-                <h1 className="text-center">Add Attendance</h1>
+                <h1 className="text-center">Add Program-Subject</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Student ID:</label>
-                    <Select 
-                        name="studentId"
-                        options={listStudentId.map(tt=>({value: tt, label: tt}))}
-                        placeholder='None Selected'
-                        onChange={e => setStudentId(((e.map(obj => obj.value))).toString())}
-                        className="form-control"
-                    >
-                    </Select><br></br>
-                </div>
-                <div className="form-group">
-                    <label>Program Full Code:</label>
+                    <label>Faculty:</label>
                     <Select 
                         name="programFullCode"
                         options={listProgramCode.map(t=>({value: t, label: t}))}
@@ -92,12 +74,15 @@ export default function AddAttendance() {
                     </Select><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Start Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>End Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
+                    <label>Program Full Code:</label>
+                    <Select 
+                        name="subjectId"
+                        options={listSubjectId.map(t=>({value: t, label: t}))}
+                        placeholder='None Selected'
+                        onChange={e => setSubjectId(((e.map(obj => obj.value))).toString())}
+                        className="form-control"
+                    >
+                    </Select><br></br>
                 </div>
                 <br></br>
                 <button className="btn btn-primary">Submit</button>

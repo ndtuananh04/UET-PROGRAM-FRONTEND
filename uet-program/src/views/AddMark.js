@@ -2,30 +2,29 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-dropdown-select";
 
-const URL = 'http://localhost:8080/myprogram/attendances/new'
+const URL = 'http://localhost:8080/myprogram/marksubjects/new'
 
 var check = 0;
-export default function AddAttendance() {
+export default function AddMark() {
    
     const [post, setPost] = useState({
         "studentId": "",
-        "programFullCode": "",
-        "startDate": "",
-        "endDate": ""
+        "subjectId": "",
+        "mark": 0
     })
 
     const [listStudentId, setListStudentId] = useState([])
-    const [listProgramCode, setListProgramCode] = useState([])
+    const [listSubjectId, setListSubjectId] = useState([])
     const [studentId, setStudentId] = useState("")
-    const [programCode, setProgramCode] = useState("")
+    const [subjectId, setSubjectId] = useState("")
     
-    const getAttendanceInfo = (e) => {
+    const getMarkInfo = (e) => {
         // e.preventDefault()
         axios.get(URL)
             .then(response => {
             console.log(response.data)
             setListStudentId(response.data.listOfStudentId)
-            setListProgramCode(response.data.listOfProgramFullCode)
+            setListSubjectId(response.data.listOfSubjectId)
             })
             .catch(error => console.log(error));
     }
@@ -44,7 +43,7 @@ export default function AddAttendance() {
     useEffect(() => {   
         if (post.studentId !== "") {
                 console.log("first")
-                setPost({...post, programFullCode: programCode})
+                setPost({...post, subjectId: subjectId})
             } 
     }, [post.studentId]);
 
@@ -57,16 +56,16 @@ export default function AddAttendance() {
                 .catch(err => console.log(err));
         }
         check++;
-    }, [post.programFullCode])
+    }, [post.subjectId])
 
     return (
         <div className="container">
             {
-              listStudentId.length < 1 ? getAttendanceInfo() : ''
+              listStudentId.length < 1 ? getMarkInfo() : ''
             }
             <br></br>
             <div>
-                <h1 className="text-center">Add Attendance</h1>
+                <h1 className="text-center">Add Mark</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -81,23 +80,19 @@ export default function AddAttendance() {
                     </Select><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Program Full Code:</label>
+                    <label>Subject ID:</label>
                     <Select 
-                        name="programFullCode"
-                        options={listProgramCode.map(t=>({value: t, label: t}))}
+                        name="subjectId"
+                        options={listSubjectId.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setProgramCode(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setSubjectId(((e.map(obj => obj.value))).toString())}
                         className="form-control"
                     >
                     </Select><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Start Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>End Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
+                    <label>Mark:</label> 
+                    <input type="number" className="form-control" onChange={handleInput} name="mark"></input><br></br>
                 </div>
                 <br></br>
                 <button className="btn btn-primary">Submit</button>

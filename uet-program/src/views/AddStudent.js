@@ -1,11 +1,27 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-dropdown-select';
 import { Routes, Route, Link } from 'react-router-dom';
 
-
+// var studentInfo={
+//     "studentId": "",
+//     "name": "",
+//     "age": 0,
+//     "gender": "",
+//     "address": "",
+//     "phone": "",
+//     "classFullName": "",
+//     "listOfGender": [
+//         "Male",
+//         "Female"
+//     ],
+//     "listOfClassroom": [
+//         "K67-CA-CLC4",
+//         "K68--NCLC"
+//     ]
+// }
 const URL = 'http://localhost:8080/myprogram/students/new'
-
+var check = 0;
 export default function AddStudent() {
     
     const [post, setPost] = useState({
@@ -15,33 +31,103 @@ export default function AddStudent() {
         "gender": "",
         "address": "",
         "phone": "",
-        "classFullName": "",
-        "listOfGender": [],
-        "listOfClassroom": []
+        "classFullName": ""
     })
-    const handleInput = (event) => {
+
+    const [studentGender, setStudentGender] = useState([])
+    const [studentClass, setStudentClass] = useState([])
+    const [sGender, setSGender] = useState([])
+    const [sClass, setSClass] = useState([])
+
+    
+    const getStudentInfo = (e) => {
+        axios.get(URL)
+            .then(response => {
+            console.log(response.data)
+            setStudentGender(response.data.listOfGender)
+            setStudentClass(response.data.listOfClassroom)
+            })
+            .catch(error => console.log(error));
+    }
+        const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(post)
-        axios.post(URL, post)
-        .then(response => console.log(response))
-        .catch(err => console.log(err))
+        setPost({...post, gender: sGender})
+        console.log("submitnay")
     }
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                
-                Student ID: <input type="text" onChange={handleInput} name="studentId"></input><br></br>
-                Student Name: <input type="text" onChange={handleInput} name="name"></input><br></br>
-                Age: <input type="number" onChange={handleInput} name="age"></input><br></br>
-                Gender: <input type="text" onChange={handleInput} name="gender"></input><br></br>
-                Address: <input type="text" onChange={handleInput} name="address"></input><br></br>
-                Phone: <input type="text" onChange={handleInput} name="phone"></input><br></br>
-                Class Full Name: <input type="text" onChange={handleInput} name="classFullName"></input><br></br>
-                <button>Submit</button>
+    useEffect(() => {   
+        if (post.gender !== "") {
+                console.log("first")
+                setPost({...post, classFullName: sClass})
+            } 
+    }, [post.gender]);
+
+    useEffect(() => {
+        if (check > 1) {
+            console.log("dc roi")
+                axios.post(URL, post)
+                .then(response => console.log(response))
+                .catch(err => console.log(err));
+        }
+        check++;
+    }, [post.classFullName])
+
+    return (    
+        <div className="container">
+            {
+                studentClass.length < 1 ? getStudentInfo() : ''
+            }
+            <br></br>
+            <div>
+                <h1 className="text-center">Add Student</h1>
+            </div>
+            <form onSubmit={handleSubmit}>  
+                <div className='form-group'>
+                    <label>Student ID:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="studentId"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Student Name:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="name"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Age:</label>
+                    <input type="number" className="form-control" onChange={handleInput} name="age"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Gender:</label>
+                    <Select
+                        name="gender"
+                        options={studentGender.map(t=>({value: t, label: t}))}
+                        placeholder='None Selected'
+                        onChange={e => setSGender(((e.map(obj => obj.value))).toString())}
+                        className='form-control'
+                    >
+                    </Select><br></br>
+                </div>
+                <div className="form-group"> 
+                    <label>Address:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="address"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Phone: </label>
+                    <input type="text" className="form-control" onChange={handleInput} name="phone"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Class Full Name:</label>
+                    <Select
+                        name='class'
+                        options={studentClass.map(t=>({value: t, label: t}))}
+                    placeholder='None Selected'
+                    onChange={e => setSClass(((e.map(obj => obj.value))).toString())}
+                    className='form-control'
+                    ></Select>
+                </div>
+                <br></br>
+                <button className="btn btn-primary">Submit</button>
             </form>
             
         </div>

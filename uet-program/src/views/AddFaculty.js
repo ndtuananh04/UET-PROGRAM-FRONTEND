@@ -1,8 +1,5 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
 
 const URL = 'http://localhost:8080/myprogram/faculties/new'
 
@@ -27,13 +24,32 @@ export default function AddFaculty() {
     }
 
     return (
-        <div>
+        <div className="container">
+            <br></br>
+            <div>
+                <h1 className="text-center">Add Faculty</h1>
+            </div>
             <form onSubmit={handleSubmit}>
-                Faculty Name: <input type="text" onChange={handleInput} name="facultyName"></input><br></br>
-                Address: <input type="text" onChange={handleInput} name="address"></input><br></br>
-                Email: <input type="text" onChange={handleInput} name="email"></input><br></br>
-                Phone: <input type="text" onChange={handleInput} name="phone"></input><br></br>
-                Website: <input type="text" onChange={handleInput} name="website"></input><br></br>
+                <div>
+                    <label>Faculty Name:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="facultyName"></input><br></br>
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="address"></input><br></br>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="email"></input><br></br>
+                </div>
+                <div>
+                    <label>Phone:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="phone"></input><br></br>
+                </div>
+                <div>
+                    <label>Website:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="website"></input><br></br>
+                </div>
                 <button>Submit</button>
             </form>
             

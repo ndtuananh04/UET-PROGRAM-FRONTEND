@@ -52,7 +52,7 @@ export default function Student() {
                 : ''
                 }
             </table>
-            <Link to="/students/new">Add Subject</Link>
+            <Link to="/students/new">Add Student</Link>
         </div>
     )
 }
