@@ -6,7 +6,9 @@ import { useParams } from 'react-router-dom';
 var check = 0;
 export default function EditSubject() {
     
-    
+    const [subjectId, setSubjectId] = useState("");
+    const [subjectName, setSubjectName] = useState("");
+    const [credit, setCredit] = useState(0);
     const [post, setPost] = useState({
         "subjectid": "",
         "subjectName": "",
@@ -50,12 +52,14 @@ export default function EditSubject() {
     useEffect(() => {
         axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
             .then(response => {
-            console.log(response.data.listOfSubjectId)
+            console.log(response.data)
+            setSubjectId(response.data.subjectid);
+            setSubjectName(response.data.subjectName);
+            setCredit(response.data.credit);
             setSubjectList(response.data.listOfSubjectId)
             setRoleTypeList(response.data.listRoleType)
             })
             .catch(error => console.log(error));
-            console.log(test)
     }, [])
 
     return (
@@ -67,15 +71,15 @@ export default function EditSubject() {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Subject ID:</label>
-                    <input type="text" className="form-control" onChange={handleInput} name="subjectid"></input><br></br>
+                    <input value={subjectId} type="text" className="form-control" onChange={handleInput} name="subjectid"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Subject Name:</label> 
-                    <input value="ac" type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
+                    <input value={subjectName} type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Credit:</label> 
-                    <input type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
+                    <input value={credit} type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Role Type:</label>
@@ -85,7 +89,7 @@ export default function EditSubject() {
                         placeholder='None Selected'
                         onChange={e => setTypeRole(((e.map(obj => obj.value))).toString())}
                         className="form-control"
-                        value={{ value: "MANDATORY", label: "MANDATORY" }}
+                        // value={{ value: "MANDATORY", label: "MANDATORY" }}
                     >
                     </Select><br></br>
                 </div>
@@ -98,7 +102,7 @@ export default function EditSubject() {
                         multi
                         onChange={valueT => setValue(valueT.map(obj => obj.value))}
                         className="form-control"
-                        defaultValue={test.map(t=>({value: t, label: t}))}
+                        // defaultValue={test.map(t=>({value: t, label: t}))}
                     >
                     </Select>
                 </div>
