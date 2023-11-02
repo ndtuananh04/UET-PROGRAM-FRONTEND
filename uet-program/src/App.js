@@ -12,6 +12,7 @@ import StudentPage from './views/Student';
 import AddStudent from './views/AddStudent';
 import SubjectPage from './views/Subject';
 import AddSubject from './views/AddSubject';
+import EditSubject from './views/EditSubject';
 import Faculty from './views/Faculty';
 import AddFaculty from './views/AddFaculty';
 import Program from './views/Program';
@@ -22,6 +23,7 @@ import AddAttendance from './views/AddAttendance';
 import AddMark from './views/AddMark';
 import AddFacultyProgram from './views/AddFacultyProgram';
 import AddProgramSubject from './views/AddProgramSubject';
+
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
 
@@ -37,7 +39,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to="/students" className="nav-link">Students</Link>
-            <Link to="/programs" className="nav-link">Programs</Link>
+            <Link to="/subjects" className="nav-link">Subjects</Link>
             <Link to="/faculties" className="nav-link">Falcuties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
@@ -76,6 +78,7 @@ function App() {
         <Route path="/marksubjects/new" element={<AddMark/>} />
         <Route path="/facultyprograms/new" element={<AddFacultyProgram/>} />
         <Route path="/programsubjects/new" element={<AddProgramSubject/>} />
+        <Route path="/subjects/edit/:id" element={<EditSubject />} />
       </Routes>
     </div>
     // <div className="App">

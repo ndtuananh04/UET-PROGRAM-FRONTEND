@@ -24,7 +24,7 @@ export default function Classroom() {
             }
             <br></br>
             <h1 className="text-center">Classroom page</h1>
-            <button onClick={getClassrooms}>Get Classrooms</button>
+            <button className="btn btn-secondary" onClick={getClassrooms}>Get Classrooms</button>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -44,7 +44,7 @@ export default function Classroom() {
                 : ''
                 }
             </table>
-            <Link to="/classrooms/new">Add Classroom</Link>
+            <Link to="/classrooms/new"><button className="btn btn-primary">Add Classroom</button></Link>
         </div>
     )
 }

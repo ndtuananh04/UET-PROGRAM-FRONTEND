@@ -24,7 +24,7 @@ export default function Subject() {
             }
             <br></br>
             <h1 className="text-center">Subject page</h1>
-            <button onClick={getSubjects}>Get Subjects</button>
+            <button className="btn btn-secondary" onClick={getSubjects}>Get Subjects</button>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -33,6 +33,7 @@ export default function Subject() {
                   <th scope="col">Credit</th>
                   <th scope="col">RoleType</th>
                   <th scope="col">Prerequisite Subject</th>
+                  <th scope="col">Change</th>
                 </tr>
               </thead >
               {
@@ -44,6 +45,7 @@ export default function Subject() {
                               <td>{subject.credit}</td>
                               <td>{subject.roleType}</td>
                               <td>{subject.prerequisiteSubjectId}</td>
+                              <Link className='btn btn-sm' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
                             </tr>
                             </tbody>
                 })
@@ -51,7 +53,7 @@ export default function Subject() {
                 }
 
             </table>
-            <Link to="/subjects/new">Add Subject</Link>
+            <Link to="/subjects/new"><button className="btn btn-primary">Add Subject</button></Link>
         </div>
     )
 }

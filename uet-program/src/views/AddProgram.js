@@ -146,7 +146,7 @@ export default function AddProgram() {
                     </Select><br></br>
                 </div>
                 <br></br>
-                <button>Submit</button>
+                <button className="btn btn-primary">Submit</button>
             </form>
             
         </div>

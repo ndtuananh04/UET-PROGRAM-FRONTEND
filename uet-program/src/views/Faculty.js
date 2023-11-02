@@ -24,7 +24,7 @@ export default function Faculty() {
             }
             <br></br>
             <h1 className="text-center">Faculty page</h1>
-            <button onClick={getFaculties}>Get Falcuties</button>
+            <button className="btn btn-secondary" onClick={getFaculties}>Get Falcuties</button>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -50,7 +50,7 @@ export default function Faculty() {
                 : ''
                 }
             </table>
-            <Link to="/faculties/new">Add Faculties</Link>
+            <Link to="/faculties/new"><button className="btn btn-primary">Add Faculties</button></Link>
         </div>
     )
 }

@@ -1,30 +1,12 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from 'react-dropdown-select';
-
-// var subjectList={
-//     "subjectid": "",
-//     "subjectName": "",
-//     "credit": 0,
-//     "roleType": "",
-//     "prerequisiteSubjectId": [],
-//     "listRoleType": [
-//         "MANDATORY",
-//         "OPTIONAL",
-//         "OPTIONALREINFORCEMENT",
-//         "PHYSICAL",
-//         "NATIONALDEFENCE",
-//         "ADDITIONAL",
-//         "GRADUATIONINTERSHIP"
-//     ],
-//     "listOfSubjectId": []
-// };
-
-const URL = 'http://localhost:8080/myprogram/subjects/new'
+import Select from "react-dropdown-select";
+import { useParams } from 'react-router-dom';
 
 var check = 0;
-export default function AddSubject() {
-   
+export default function EditSubject() {
+    
+    
     const [post, setPost] = useState({
         "subjectid": "",
         "subjectName": "",
@@ -32,7 +14,7 @@ export default function AddSubject() {
         "roleType": "",
         "prerequisiteSubjectId": []
     })
-
+    const {id} = useParams();
     const [subjectList, setSubjectList] = useState([])
     const [roleTypeList, setRoleTypeList] = useState([])
     const [value, setValue] = useState([])
@@ -58,32 +40,29 @@ export default function AddSubject() {
     useEffect(() => {
         if (check > 1) {
             console.log("dc roi")
-                axios.post(URL, post)
+                axios.put('http://localhost:8080/myprogram/subjects/edit/save', post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
         }
         check++;
     }, [post.prerequisiteSubjectId])
 
-    const getSubjects = (e) => {
-        // e.preventDefault()
-        axios.get(URL)
+    useEffect(() => {
+        axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
             .then(response => {
             console.log(response.data.listOfSubjectId)
             setSubjectList(response.data.listOfSubjectId)
             setRoleTypeList(response.data.listRoleType)
             })
             .catch(error => console.log(error));
-    }
+            console.log(test)
+    }, [])
 
     return (
         <div className="container">
-            {
-              subjectList.length < 1 ? getSubjects() : ''
-            }
             <br></br>
             <div>
-                <h1 className="text-center">Add Subject</h1>
+                <h1 className="text-center">Edit Subject</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -92,7 +71,7 @@ export default function AddSubject() {
                 </div>
                 <div className="form-group">
                     <label>Subject Name:</label> 
-                    <input type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
+                    <input value="ac" type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Credit:</label> 
@@ -106,6 +85,7 @@ export default function AddSubject() {
                         placeholder='None Selected'
                         onChange={e => setTypeRole(((e.map(obj => obj.value))).toString())}
                         className="form-control"
+                        value={{ value: "MANDATORY", label: "MANDATORY" }}
                     >
                     </Select><br></br>
                 </div>
@@ -118,11 +98,12 @@ export default function AddSubject() {
                         multi
                         onChange={valueT => setValue(valueT.map(obj => obj.value))}
                         className="form-control"
+                        defaultValue={test.map(t=>({value: t, label: t}))}
                     >
                     </Select>
                 </div>
                 <br></br>
-                <button className="btn btn-primary">Submit</button>
+                <button className="btn btn-primary">Update</button>
             </form>
             <br></br>
 

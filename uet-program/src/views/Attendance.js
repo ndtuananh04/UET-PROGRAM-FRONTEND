@@ -21,7 +21,7 @@ export default function Attendance() {
     return (
         <div className='container'>
             <h1>Addttendance page</h1>
-            <button onClick={getAttendances}>Get Attendances</button>
+            <button className="btn btn-secondary" onClick={getAttendances}>Get Attendances</button>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -49,7 +49,7 @@ export default function Attendance() {
                 : ''
                 }
             </table>
-            <Link to="/attendances/new">Add Attendance</Link>
+            <Link to="/attendances/new"><button className="btn btn-primary">Add Attendance</button></Link>
         </div>
     )
 }

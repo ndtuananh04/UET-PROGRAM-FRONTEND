@@ -24,7 +24,7 @@ export default function Program() {
             }
             <br></br>
             <h1 className="text-center">Program page</h1>
-            <button onClick={getPrograms}>Get Programs</button>
+            <button className="btn btn-secondary" onClick={getPrograms}>Get Programs</button>
             <div className="table-responsive">
                 <table className="table table-hover">
                   <thead>
@@ -68,7 +68,7 @@ export default function Program() {
                     }
                 </table>
             </div>
-            <Link to="/programs/new">Add Program</Link>
+            <Link to="/programs/new"><button className="btn btn-primary">Add Program</button></Link>
         </div>
     )
 }

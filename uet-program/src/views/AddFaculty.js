@@ -50,7 +50,7 @@ export default function AddFaculty() {
                     <label>Website:</label>
                     <input type="text" className="form-control" onChange={handleInput} name="website"></input><br></br>
                 </div>
-                <button>Submit</button>
+                <button className="btn btn-primary">Submit</button>
             </form>
             
         </div>
