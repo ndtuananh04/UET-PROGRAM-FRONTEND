@@ -1,30 +1,24 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 const URL = 'http://localhost:8080/myprogram/classrooms'
 
 export default function Classroom() {
-    const [classroomList, setClassroomList] = useState([]);
-    const getClassrooms = (e) => {
-        // e.preventDefault()
-        axios.get(URL)
+  const [count,setCount] = useState(0);  
+  const [classroomList, setClassroomList] = useState([]);
+    useEffect(() => {
+      axios.get(URL)
             .then(response => {
             console.log(response.data)
             setClassroomList(response.data)
             })
             .catch(error => console.log(error));
-    }
-
+    },[count])
     return (
         <div className='container'>
-            {
-              classroomList.length < 1 ? getClassrooms() : ''
-            }
             <br></br>
             <h1 className="text-center">Classroom page</h1>
-            <button className="btn btn-secondary" onClick={getClassrooms}>Get Classrooms</button>
             <table className="table table-hover">
               <thead>
                 <tr>

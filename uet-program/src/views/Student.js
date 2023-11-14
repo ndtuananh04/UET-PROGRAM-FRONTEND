@@ -1,30 +1,37 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 const URL = 'http://localhost:8080/myprogram/students'
 
 export default function Student() {
-    const [studentList, setStudentList] = useState([]);
-    const getStudents = (e) => {
-        // e.preventDefault()
-        axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setStudentList(response.data)
-            })
-            .catch(error => console.log(error));
+  const [count, setCount] = useState(0);
+  const [studentList, setStudentList] = useState([]);
+    useEffect(() => {
+      axios.get(URL)
+      .then(response => {
+      console.log(response.data)
+      setStudentList(response.data)
+      })
+      .catch(error => console.log(error));
+    },[count])
+    
+    const deleteStudent = (id, e) => {
+      e.preventDefault();
+      axios.delete(`http://localhost:8080/myprogram/students/delete/${id}`)
+      .then(response => {
+        console.log('Delete', response)
+        setCount(count+1)
+      })
+      .catch(err => console.log(err));
     }
 
     return (
         <div className='container'>
-            {
-              studentList.length < 1 ? getStudents() : ''
-            }
             <br></br>
             <h1 className="text-center">Student page</h1>
-            <button className="btn btn-secondary" onClick={getStudents}>Get Students</button>
+            <Link to="/searchid"><button className="btn btn-primary">Search Student</button></Link>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -34,10 +41,11 @@ export default function Student() {
                   <th scope="col">Gender</th>
                   <th scope="col">Address</th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Class</th>
                 </tr>
               </thead>
               {
-                studentList.length >= 1 ? studentList.map((student, idx) => {
+                studentList.map((student, idx) => {
                     return <tbody key={idx}>
                             <tr>
                               <th scope="row">{student.studentId}</th>
@@ -46,13 +54,15 @@ export default function Student() {
                               <td>{student.gender}</td>
                               <td>{student.address}</td>
                               <td>{student.phone}</td>
+                              <td>{student.classFullName}</td>
+                              <Link className='btn btn-sm' to={`/students/edit/${student.studentId}`}>Edit</Link>
+                              <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm'>Delete</button>
                             </tr>
                             </tbody>
                 })
-                : ''
-                }
+              }
             </table>
-            <Link to="/students/new"><button className="btn btn-primary">Add Student</button></Link>
+            <Link to="/students/new"><button className="btn btn-primary">Add Student</button></Link><br></br>
         </div>
     )
 }

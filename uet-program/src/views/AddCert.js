@@ -1,27 +1,27 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from "react-select";
+import Select from 'react-select';
 
-const URL = 'http://localhost:8080/myprogram/attendances/new'
+const URL = 'http://localhost:8080/myprogram/obtaincerts/new'
 
-export default function AddAttendance() {
+export default function AddCert() {
    
     const [post, setPost] = useState({
         "studentId": "",
-        "programFullCode": "",
-        "startDate": "",
-        "endDate": ""
+        "certificateType": "",
+        "levelLanguage": "",
+        "submissionDate": "",
     })
 
-    const [listStudentId, setListStudentId] = useState([])
-    const [listProgramCode, setListProgramCode] = useState([])
+    const [certTypeList, setCertTypeList] = useState([])
+    const [levelList, setLevelList] = useState([])
     
     useEffect(() => {
         axios.get(URL)
             .then(response => {
-            console.log(response.data)
-            setListStudentId(response.data.listOfStudentId)
-            setListProgramCode(response.data.listOfProgramFullCode)
+            console.log(response.data.listOfSubjectId)
+            setCertTypeList(response.data.certificateTypeList)
+            setLevelList(response.data.levelLanguageList)
             })
             .catch(error => console.log(error));
     },[])
@@ -32,6 +32,7 @@ export default function AddAttendance() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        console.log(post)
         axios.post(URL, post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
@@ -41,44 +42,45 @@ export default function AddAttendance() {
         <div className="container">
             <br></br>
             <div>
-                <h1 className="text-center">Add Attendance</h1>
+                <h1 className="text-center">Add Certificate</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Student ID:</label>
+                    <input type="text" className="form-control" onChange={handleInput} name="studentId"></input><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Certificate Type:</label>
                     <Select 
-                        name="studentId"
-                        options={listStudentId.map(tt=>({value: tt, label: tt}))}
+                        name="certificateType"
+                        options={certTypeList.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setPost({...post, studentId: e.value})}
+                        onChange={e => setPost({...post, certificateType: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Program Full Code:</label>
+                    <label>Language Level:</label>
                     <Select 
-                        name="programFullCode"
-                        options={listProgramCode.map(t=>({value: t, label: t}))}
+                        name="levelLanguage"
+                        options={levelList.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setPost({...post, programFullCode: e.value})}
+                        onChange={e => setPost({...post, levelLanguage: e.value})}
                         className="form-control"
                     >
-                    </Select><br></br>
+                    </Select>
                 </div>
                 <div className="form-group">
-                    <label>Start Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>End Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
+                    <label>Submission Date:</label> 
+                    <input type="date" className="form-control" onChange={handleInput} name="submissionDate"></input><br></br>
                 </div>
                 <br></br>
                 <button className="btn btn-primary">Submit</button>
             </form>
             <br></br>
-
         </div>
     )
 }
+
+

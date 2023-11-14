@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
+import { useParams } from 'react-router-dom';
 
-const URL = 'http://localhost:8080/myprogram/attendances/new'
-
-export default function AddAttendance() {
+export default function EditAttendance() {
    
     const [post, setPost] = useState({
         "studentId": "",
@@ -13,15 +12,18 @@ export default function AddAttendance() {
         "endDate": ""
     })
 
+    const {id} = useParams();
     const [listStudentId, setListStudentId] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
     
     useEffect(() => {
-        axios.get(URL)
+        axios.get(`http://localhost:8080/myprogram/attendances/edit/${id}`)
             .then(response => {
             console.log(response.data)
             setListStudentId(response.data.listOfStudentId)
             setListProgramCode(response.data.listOfProgramFullCode)
+            setPost({...post, studentId: response.data.studentId, programFullCode: response.data.programFullCode,
+            startDate: response.data.startDate, endDate: response.data.endDate})
             })
             .catch(error => console.log(error));
     },[])
@@ -32,7 +34,7 @@ export default function AddAttendance() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post(URL, post)
+        axios.put('http://localhost:8080/myprogram/attendances/edit/save', post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
     }
@@ -41,38 +43,24 @@ export default function AddAttendance() {
         <div className="container">
             <br></br>
             <div>
-                <h1 className="text-center">Add Attendance</h1>
+                <h1 className="text-center">Edit Attendance</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Student ID:</label>
-                    <Select 
-                        name="studentId"
-                        options={listStudentId.map(tt=>({value: tt, label: tt}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, studentId: e.value})}
-                        className="form-control"
-                    >
-                    </Select><br></br>
+                    <label>Student ID:</label> 
+                    <input value={post.studentId} type="text" className="form-control" name="studentId"></input><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Program Full Code:</label>
-                    <Select 
-                        name="programFullCode"
-                        options={listProgramCode.map(t=>({value: t, label: t}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, programFullCode: e.value})}
-                        className="form-control"
-                    >
-                    </Select><br></br>
+                    <label>Program Full Code:</label> 
+                    <input value={post.programFullCode} type="text" className="form-control" name="program"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Start Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
+                    <input value={post.startDate} type="date" className="form-control" onChange={handleInput} name="startDate"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>End Date:</label> 
-                    <input type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
+                    <input value={post.endDate} type="date" className="form-control" onChange={handleInput} name="endDate"></input><br></br>
                 </div>
                 <br></br>
                 <button className="btn btn-primary">Submit</button>

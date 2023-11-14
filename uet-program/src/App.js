@@ -10,6 +10,7 @@ import NavDropdown from '../node_modules/react-bootstrap/NavDropdown';
 import HomePage from './views/Home';
 import StudentPage from './views/Student';
 import AddStudent from './views/AddStudent';
+import EditStudent from './views/EditStudent';
 import SubjectPage from './views/Subject';
 import AddSubject from './views/AddSubject';
 import EditSubject from './views/EditSubject';
@@ -17,12 +18,22 @@ import Faculty from './views/Faculty';
 import AddFaculty from './views/AddFaculty';
 import Program from './views/Program';
 import AddProgram from './views/AddProgram';
+import EditProgram from './views/EditProgram';
 import Classroom from './views/Classroom';
 import AddClassroom from './views/AddClassroom';
+import Attendance from './views/Attendance';
 import AddAttendance from './views/AddAttendance';
+import EditAttendance from './views/EditAttendance';
+import Mark from './views/Marks';
 import AddMark from './views/AddMark';
+import EditMark from './views/EditMark';
 import AddFacultyProgram from './views/AddFacultyProgram';
 import AddProgramSubject from './views/AddProgramSubject';
+import Obtaincert from './views/Obtaincert';
+import AddCert from './views/AddCert';
+import EditCert from './views/EditCert';
+import Search from './views/Search';
+import SearchSubjects from './views/SearchSubjects';
 
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
@@ -43,11 +54,12 @@ function App() {
             <Link to="/faculties" className="nav-link">Falcuties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
-            <NavDropdown title="Add Relations" id="basic-nav-dropdown">
-              <Link to="/attendances/new" className="nav-link text-center">Attendances</Link>
-              <Link to="/marksubjects/new" className="nav-link text-center">Marks</Link>
+            <NavDropdown title="Relations" id="basic-nav-dropdown">
+              <Link to="/attendances" className="nav-link text-center">Attendances</Link>
+              <Link to="/marksubjects" className="nav-link text-center">Marks</Link>
               <Link to="/facultyprograms/new" className="nav-link text-center">Faculty-Program</Link>
               <Link to="/programsubjects/new" className="nav-link text-center">Program-Subject</Link>
+              <Link to="/obtaincerts" className="nav-link text-center">Certificate Obtained</Link>
               {/* <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Another action
@@ -74,64 +86,24 @@ function App() {
         <Route path="/programs/new" element={<AddProgram/>} />
         <Route path="/classrooms" element={<Classroom/>} />
         <Route path="/classrooms/new" element={<AddClassroom/>} />
+        <Route path="/attendances" element={<Attendance/>} />
         <Route path="/attendances/new" element={<AddAttendance/>} />
+        <Route path="/marksubjects" element={<Mark/>} />
         <Route path="/marksubjects/new" element={<AddMark/>} />
         <Route path="/facultyprograms/new" element={<AddFacultyProgram/>} />
         <Route path="/programsubjects/new" element={<AddProgramSubject/>} />
         <Route path="/subjects/edit/:id" element={<EditSubject />} />
+        <Route path="/students/edit/:id" element={<EditStudent />} />
+        <Route path="/programs/edit/:id" element={<EditProgram />} />
+        <Route path="/attendances/edit/:id" element={<EditAttendance />} />
+        <Route path="/marksubjects/edit/:id" element={<EditMark />} />
+        <Route path="/obtaincerts" element={<Obtaincert/>} />
+        <Route path="/obtaincerts/new" element={<AddCert/>} />
+        <Route path="/obtaincerts/edit/:id" element={<EditCert/>} />
+        <Route path="/searchid" element={<Search />} />
+        <Route path="/searchSubject" element={<SearchSubjects />} />
       </Routes>
     </div>
-    // <div className="App">
-
-    //   <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
-    //     <div className="container-fluid">
-    //       <Link to="/" className="navbar-brand mb-0 h1">UET PROGRAM</Link>
-    //       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    //         <ul className="navbar-nav mr-auto">
-    //           <li className="nav-item">
-    //             <Link to="/students" className="nav-link">Students</Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link to="/subjects" className="nav-link">Subjects</Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link to="/faculties" className="nav-link">Falcuties</Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link to="/programs" className="nav-link">Programs</Link>
-    //           </li>
-    //           <li className="nav-item">
-    //             <Link to="/classrooms" className="nav-link">Classrooms</Link>
-    //           </li>
-    //           <li className="nav-item dropdown">
-    //             <a className="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    //               Dropdown
-    //             </a>
-    //             <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-    //               <li><a className="dropdown-item" href="#">Action</a></li>
-    //               <li><a className="dropdown-item" href="#">Another action</a></li>
-    //               <li><a className="dropdown-item" href="#">Something else here</a></li>
-    //             </ul>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </nav>
-    //   <Routes>
-    //     <Route path="/" element={<HomePage />} />
-    //     <Route path="/students" element={<StudentPage />} />
-    //     <Route path="/students/new" element={<AddStudent />} />
-    //     <Route path="/subjects" element={<SubjectPage />} />
-    //     <Route path="/subjects/new" element={<AddSubject />} />
-    //     <Route path="/faculties" element={<Faculty />} />
-    //     <Route path="/faculties/new" element={<AddFaculty />} />
-    //     <Route path="/programs" element={<Program />} />
-    //     <Route path="/programs/new" element={<AddProgram/>} />
-    //     <Route path="/classrooms" element={<Classroom/>} />
-    //     <Route path="/classrooms/new" element={<AddClassroom/>} />
-    //   </Routes>
-
-    // </div>
   );
 }
 

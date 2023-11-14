@@ -1,27 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Select from 'react-dropdown-select';
+import Select from 'react-select';
 import { Routes, Route, Link } from 'react-router-dom';
 
-// var studentInfo={
-//     "studentId": "",
-//     "name": "",
-//     "age": 0,
-//     "gender": "",
-//     "address": "",
-//     "phone": "",
-//     "classFullName": "",
-//     "listOfGender": [
-//         "Male",
-//         "Female"
-//     ],
-//     "listOfClassroom": [
-//         "K67-CA-CLC4",
-//         "K68--NCLC"
-//     ]
-// }
 const URL = 'http://localhost:8080/myprogram/students/new'
-var check = 0;
+
 export default function AddStudent() {
     
     const [post, setPost] = useState({
@@ -36,50 +19,30 @@ export default function AddStudent() {
 
     const [studentGender, setStudentGender] = useState([])
     const [studentClass, setStudentClass] = useState([])
-    const [sGender, setSGender] = useState([])
-    const [sClass, setSClass] = useState([])
 
-    
-    const getStudentInfo = (e) => {
+    useEffect(()=> {
         axios.get(URL)
             .then(response => {
-            console.log(response.data)
             setStudentGender(response.data.listOfGender)
             setStudentClass(response.data.listOfClassroom)
             })
             .catch(error => console.log(error));
-    }
-        const handleInput = (event) => {
+    },[])
+
+    const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
+    
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, gender: sGender})
-        console.log("submitnay")
-    }
-
-    useEffect(() => {   
-        if (post.gender !== "") {
-                console.log("first")
-                setPost({...post, classFullName: sClass})
-            } 
-    }, [post.gender]);
-
-    useEffect(() => {
-        if (check > 1) {
-            console.log("dc roi")
-                axios.post(URL, post)
+        console.log(post)
+        axios.post(URL, post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
-        }
-        check++;
-    }, [post.classFullName])
+    }
 
     return (    
         <div className="container">
-            {
-                studentClass.length < 1 ? getStudentInfo() : ''
-            }
             <br></br>
             <div>
                 <h1 className="text-center">Add Student</h1>
@@ -103,7 +66,7 @@ export default function AddStudent() {
                         name="gender"
                         options={studentGender.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setSGender(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, gender: e.value})}
                         className='form-control'
                     >
                     </Select><br></br>
@@ -121,9 +84,9 @@ export default function AddStudent() {
                     <Select
                         name='class'
                         options={studentClass.map(t=>({value: t, label: t}))}
-                    placeholder='None Selected'
-                    onChange={e => setSClass(((e.map(obj => obj.value))).toString())}
-                    className='form-control'
+                        placeholder='None Selected'
+                        onChange={e => setPost({...post, classFullName: e.value})}
+                        className='form-control'
                     ></Select>
                 </div>
                 <br></br>

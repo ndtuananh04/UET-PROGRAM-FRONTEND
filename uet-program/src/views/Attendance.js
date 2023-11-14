@@ -1,48 +1,54 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 const URL = 'http://localhost:8080/myprogram/attendances'
 
 export default function Attendance() {
-    const [attendanceList, setAttendanceList] = useState([]);
-    const getAttendances = (e) => {
-        e.preventDefault()
-    
-        axios.get(URL)
+  const [count,setCount] = useState(0);  
+  const [attendanceList, setAttendanceList] = useState([]);
+    useEffect(() => {
+      axios.get(URL)
             .then(response => {
             console.log(response.data)
             setAttendanceList(response.data)
             })
             .catch(error => console.log(error));
-    }
+    },[count])
+
+    const deleteAttendance = (id, id2, e) => {
+        e.preventDefault();
+        axios.delete(`http://localhost:8080/myprogram/attendances/delete/${id}&${id2}`)
+        .then(response => {
+          console.log('Delete', response)
+          setCount(count+1)
+        })
+        .catch(err => console.log(err));
+      }
 
     return (
         <div className='container'>
-            <h1>Addttendance page</h1>
-            <button className="btn btn-secondary" onClick={getAttendances}>Get Attendances</button>
+            <br></br>
+            <h1 className="text-center">Attendance page</h1>
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">attendanceID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Age</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Phone</th>
+                  <th scope="col">Student ID</th>
+                  <th scope="col">Program</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date </th>
                 </tr>
               </thead>
               {
                 attendanceList.length >= 1 ? attendanceList.map((attendance, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{attendance.attendanceId}</th>
-                              <td>{attendance.name}</td>
-                              <td>{attendance.age}</td>
-                              <td>{attendance.gender}</td>
-                              <td>{attendance.address}</td>
-                              <td>{attendance.phone}</td>
+                              <th scope="row">{attendance.studentId}</th>
+                              <td>{attendance.programFullCode}</td>
+                              <td>{attendance.startDate}</td>
+                              <td>{attendance.endDate}</td>
+                              <Link className='btn btn-sm' to={`/attendances/edit/${attendance.studentId}&${attendance.programFullCode}`}>Edit</Link>
+                              <button onClick={e =>deleteAttendance(attendance.studentId,attendance.programFullCode, e)} className='btn btn-sm'>Delete</button>
                             </tr>
                             </tbody>
                 })
@@ -53,3 +59,4 @@ export default function Attendance() {
         </div>
     )
 }
+

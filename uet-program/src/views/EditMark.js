@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
+import { useParams } from 'react-router-dom';
 
-const URL = 'http://localhost:8080/myprogram/marksubjects/new'
 
-export default function AddMark() {
+export default function EditMark() {
    
     const [post, setPost] = useState({
         "studentId": "",
@@ -12,15 +12,18 @@ export default function AddMark() {
         "mark": 0
     })
 
+    const {id} = useParams();
     const [listStudentId, setListStudentId] = useState([])
     const [listSubjectId, setListSubjectId] = useState([])
     
     useEffect(() => {
-        axios.get(URL)
+        axios.get(`http://localhost:8080/myprogram/marksubjects/edit/${id}`)
             .then(response => {
             console.log(response.data)
             setListStudentId(response.data.listOfStudentId)
             setListSubjectId(response.data.listOfSubjectId)
+            setPost({...post, studentId: response.data.studentId, subjectId: response.data.subjectId,
+                mark: response.data.mark})
             })
             .catch(error => console.log(error));
     },[]);
@@ -32,7 +35,7 @@ export default function AddMark() {
     function handleSubmit(event) {
         event.preventDefault();
         console.log(post)
-        axios.post(URL, post)
+        axios.put('http://localhost:8080/myprogram/marksubjects/edit/save', post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
     }
@@ -41,34 +44,20 @@ export default function AddMark() {
         <div className="container">
             <br></br>
             <div>
-                <h1 className="text-center">Add Mark</h1>
+                <h1 className="text-center">Edit Mark</h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Student ID:</label>
-                    <Select 
-                        name="studentId"
-                        options={listStudentId.map(tt=>({value: tt, label: tt}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, studentId: e.value})}
-                        className="form-control"
-                    >
-                    </Select><br></br>
+                    <label>Student ID:</label> 
+                    <input value={post.studentId} type="text" className="form-control" name="studentId"></input><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Subject ID:</label>
-                    <Select 
-                        name="subjectId"
-                        options={listSubjectId.map(t=>({value: t, label: t}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, subjectId: e.value})}
-                        className="form-control"
-                    >
-                    </Select><br></br>
+                    <label>Subject ID:</label> 
+                    <input value={post.subjectId} type="text" className="form-control" name="subjectId"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Mark:</label> 
-                    <input type="number" step="0.1" className="form-control" onChange={handleInput} name="mark"></input><br></br>
+                    <input value={post.mark} type="number" className="form-control" onChange={handleInput} name="mark"></input><br></br>
                 </div>
                 <br></br>
                 <button className="btn btn-primary">Submit</button>

@@ -1,28 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from 'react-dropdown-select';
-
-// var subjectList={
-//     "subjectid": "",
-//     "subjectName": "",
-//     "credit": 0,
-//     "roleType": "",
-//     "prerequisiteSubjectId": [],
-//     "listRoleType": [
-//         "MANDATORY",
-//         "OPTIONAL",
-//         "OPTIONALREINFORCEMENT",
-//         "PHYSICAL",
-//         "NATIONALDEFENCE",
-//         "ADDITIONAL",
-//         "GRADUATIONINTERSHIP"
-//     ],
-//     "listOfSubjectId": []
-// };
+import Select from 'react-select';
 
 const URL = 'http://localhost:8080/myprogram/subjects/new'
 
-var check = 0;
 export default function AddSubject() {
    
     const [post, setPost] = useState({
@@ -35,38 +16,8 @@ export default function AddSubject() {
 
     const [subjectList, setSubjectList] = useState([])
     const [roleTypeList, setRoleTypeList] = useState([])
-    const [value, setValue] = useState([])
-    const [typeRole, setTypeRole] = useState("")
     
-    const handleInput = (event) => {
-        setPost({...post, [event.target.name]: event.target.value})
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        setPost({...post, roleType: typeRole})
-        console.log("submitnay")
-    }
-    
-    useEffect(() => {   
-        if (post.roleType !== "") {
-                console.log("roleTypefirst")
-                setPost({...post, prerequisiteSubjectId: value})
-            } 
-    }, [post.roleType]);
-
     useEffect(() => {
-        if (check > 1) {
-            console.log("dc roi")
-                axios.post(URL, post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
-        }
-        check++;
-    }, [post.prerequisiteSubjectId])
-
-    const getSubjects = (e) => {
-        // e.preventDefault()
         axios.get(URL)
             .then(response => {
             console.log(response.data.listOfSubjectId)
@@ -74,13 +25,22 @@ export default function AddSubject() {
             setRoleTypeList(response.data.listRoleType)
             })
             .catch(error => console.log(error));
+    },[])
+
+    const handleInput = (event) => {
+        setPost({...post, [event.target.name]: event.target.value})
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(post.roleType)
+        axios.post(URL, post)
+                .then(response => console.log(response))
+                .catch(err => console.log(err));
     }
 
     return (
         <div className="container">
-            {
-              subjectList.length < 1 ? getSubjects() : ''
-            }
             <br></br>
             <div>
                 <h1 className="text-center">Add Subject</h1>
@@ -102,9 +62,9 @@ export default function AddSubject() {
                     <label>Role Type:</label>
                     <Select 
                         name="roleType"
-                        options={roleTypeList.map(tt=>({value: tt, label: tt}))}
+                        options={roleTypeList.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setTypeRole(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, roleType: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>
@@ -115,9 +75,10 @@ export default function AddSubject() {
                         name="prerequisiteSubjectId"
                         options={subjectList.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        multi
-                        onChange={valueT => setValue(valueT.map(obj => obj.value))}
+                        isMulti
+                        onChange={e => setPost({...post, prerequisiteSubjectId: e.map(obj => obj.value)})}
                         className="form-control"
+                        value={post.prerequisiteSubjectId.map(t=>({value: t, label: t}))}
                     >
                     </Select>
                 </div>

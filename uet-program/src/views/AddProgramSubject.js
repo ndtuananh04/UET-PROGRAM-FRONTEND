@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from "react-dropdown-select";
+import Select from "react-select";
 
 const URL = 'http://localhost:8080/myprogram/programsubjects/new'
 
-var check = 0;
 export default function AddProgramSubject() {
    
     const [post, setPost] = useState({
@@ -14,8 +13,6 @@ export default function AddProgramSubject() {
 
     const [listSubjectId, setListSubjectId] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
-    const [subjectId, setSubjectId] = useState("")
-    const [programCode, setProgramCode] = useState("")
     
     const getProgramSubjectInfo = (e) => {
         // e.preventDefault()
@@ -30,27 +27,10 @@ export default function AddProgramSubject() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, programFullCode: programCode})
-        console.log("submitnay")
-    }
-    
-    useEffect(() => {   
-        if (post.programFullCode !== "") {
-                console.log("first")
-                setPost({...post, subjectId: subjectId})
-            } 
-    }, [post.programFullCode]);
-
-    useEffect(() => {
-        if (check > 1) {
-            console.log("dc roi")
-            console.log(post)
-                axios.post(URL, post)
+        axios.post(URL, post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
-        }
-        check++;
-    }, [post.subjectId])
+    }
 
     return (
         <div className="container">
@@ -68,7 +48,7 @@ export default function AddProgramSubject() {
                         name="programFullCode"
                         options={listProgramCode.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setProgramCode(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, programFullCode: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>
@@ -79,7 +59,7 @@ export default function AddProgramSubject() {
                         name="subjectId"
                         options={listSubjectId.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setSubjectId(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, subjectId: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>

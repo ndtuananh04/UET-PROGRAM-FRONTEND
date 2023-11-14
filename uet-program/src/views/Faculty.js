@@ -1,30 +1,25 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 const URL = 'http://localhost:8080/myprogram/faculties'
 
 export default function Faculty() {
-    const [facultyList, setFacultyList] = useState([]);
-    const getFaculties = (e) => {
-        // e.preventDefault()
-        axios.get(URL)
+  const [count, setCount] = useState(0);  
+  const [facultyList, setFacultyList] = useState([]);
+    useEffect(() => {
+      axios.get(URL)
             .then(response => {
             console.log(response.data)
             setFacultyList(response.data)
             })
             .catch(error => console.log(error));
-    }
-
+    },[count])
     return (
         <div className='container'>
-            {
-              facultyList.length < 1 ? getFaculties() : ''
-            }
             <br></br>
             <h1 className="text-center">Faculty page</h1>
-            <button className="btn btn-secondary" onClick={getFaculties}>Get Falcuties</button>
             <table className="table table-hover">
               <thead>
                 <tr>

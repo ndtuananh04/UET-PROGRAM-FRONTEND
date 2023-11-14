@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from "react-dropdown-select";
+import Select from "react-select";
 
 const URL = 'http://localhost:8080/myprogram/facultyprograms/new'
 
-var check = 0;
 export default function AddFacultyProgram() {
    
     const [post, setPost] = useState({
@@ -14,11 +13,8 @@ export default function AddFacultyProgram() {
 
     const [listFacultyName, setListFacultyName] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
-    const [facultyName, setFacultyName] = useState("")
-    const [programCode, setProgramCode] = useState("")
     
-    const getFacultyProgramInfo = (e) => {
-        // e.preventDefault()
+    useEffect(() => {
         axios.get(URL)
             .then(response => {
             console.log(response.data)
@@ -26,37 +22,17 @@ export default function AddFacultyProgram() {
             setListProgramCode(response.data.listOfProgramFullCode)
             })
             .catch(error => console.log(error));
-    }
+    },[])
 
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, facultyName: facultyName})
-        console.log("submitnay")
-    }
-    
-    useEffect(() => {   
-        if (post.studentId !== "") {
-                console.log("first")
-                setPost({...post, programFullCode: programCode})
-            } 
-    }, [post.facultyName]);
-
-    useEffect(() => {
-        if (check > 1) {
-            console.log("dc roi")
-            console.log(post)
-                axios.post(URL, post)
+        axios.post(URL, post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
-        }
-        check++;
-    }, [post.programFullCode])
-
+    }
+    
     return (
         <div className="container">
-            {
-              listFacultyName.length < 1 ? getFacultyProgramInfo() : ''
-            }
             <br></br>
             <div>
                 <h1 className="text-center">Add Falcuty-Program</h1>
@@ -68,7 +44,7 @@ export default function AddFacultyProgram() {
                         name="facultyName"
                         options={listFacultyName.map(tt=>({value: tt, label: tt}))}
                         placeholder='None Selected'
-                        onChange={e => setFacultyName(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, facultyName: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>
@@ -79,7 +55,7 @@ export default function AddFacultyProgram() {
                         name="programFullCode"
                         options={listProgramCode.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        onChange={e => setProgramCode(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, programFullCode: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>

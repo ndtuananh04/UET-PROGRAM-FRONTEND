@@ -1,14 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Select from "react-dropdown-select";
+import Select from "react-select";
 import { useParams } from 'react-router-dom';
 
-var check = 0;
 export default function EditSubject() {
     
-    const [subjectId, setSubjectId] = useState("");
-    const [subjectName, setSubjectName] = useState("");
-    const [credit, setCredit] = useState(0);
     const [post, setPost] = useState({
         "subjectid": "",
         "subjectName": "",
@@ -19,48 +15,29 @@ export default function EditSubject() {
     const {id} = useParams();
     const [subjectList, setSubjectList] = useState([])
     const [roleTypeList, setRoleTypeList] = useState([])
-    const [value, setValue] = useState([])
-    const [typeRole, setTypeRole] = useState("")
     
+    useEffect(() => {
+        axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
+            .then(response => {
+            console.log(response.data)
+            setSubjectList(response.data.listOfSubjectId)
+            setRoleTypeList(response.data.listRoleType)
+            setPost({...post, subjectid: response.data.subjectid, subjectName: response.data.subjectName, credit: response.data.credit,
+            prerequisiteSubjectId: response.data.prerequisiteSubjectId, roleType: response.data.roleType})
+            })
+            .catch(error => console.log(error));
+    }, [])
+
     const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        setPost({...post, roleType: typeRole})
-        console.log("submitnay")
-    }
-    
-    useEffect(() => {   
-        if (post.roleType !== "") {
-                console.log("roleTypefirst")
-                setPost({...post, prerequisiteSubjectId: value})
-            } 
-    }, [post.roleType]);
-
-    useEffect(() => {
-        if (check > 1) {
-            console.log("dc roi")
-                axios.put('http://localhost:8080/myprogram/subjects/edit/save', post)
+        axios.put('http://localhost:8080/myprogram/subjects/edit/save', post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
-        }
-        check++;
-    }, [post.prerequisiteSubjectId])
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
-            .then(response => {
-            console.log(response.data)
-            setSubjectId(response.data.subjectid);
-            setSubjectName(response.data.subjectName);
-            setCredit(response.data.credit);
-            setSubjectList(response.data.listOfSubjectId)
-            setRoleTypeList(response.data.listRoleType)
-            })
-            .catch(error => console.log(error));
-    }, [])
+    }
 
     return (
         <div className="container">
@@ -71,15 +48,15 @@ export default function EditSubject() {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Subject ID:</label>
-                    <input value={subjectId} type="text" className="form-control" onChange={handleInput} name="subjectid"></input><br></br>
+                    <input value={post.subjectid} type="text" className="form-control" name="subjectid"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Subject Name:</label> 
-                    <input value={subjectName} type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
+                    <input value={post.subjectName} type="text" className="form-control" onChange={handleInput} name="subjectName"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Credit:</label> 
-                    <input value={credit} type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
+                    <input value={post.credit} type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Role Type:</label>
@@ -87,9 +64,9 @@ export default function EditSubject() {
                         name="roleType"
                         options={roleTypeList.map(tt=>({value: tt, label: tt}))}
                         placeholder='None Selected'
-                        onChange={e => setTypeRole(((e.map(obj => obj.value))).toString())}
+                        onChange={e => setPost({...post, roleType: e.value})}
                         className="form-control"
-                        // value={{ value: "MANDATORY", label: "MANDATORY" }}
+                        value={{ label: post.roleType, value: post.roleType }}
                     >
                     </Select><br></br>
                 </div>
@@ -99,10 +76,10 @@ export default function EditSubject() {
                         name="prerequisiteSubjectId"
                         options={subjectList.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
-                        multi
-                        onChange={valueT => setValue(valueT.map(obj => obj.value))}
+                        isMulti
+                        onChange={e => setPost({...post, prerequisiteSubjectId: e.map(obj => obj.value)})}
                         className="form-control"
-                        // defaultValue={test.map(t=>({value: t, label: t}))}
+                        value={post.prerequisiteSubjectId.map(t=>({value: t, label: t}))}
                     >
                     </Select>
                 </div>
