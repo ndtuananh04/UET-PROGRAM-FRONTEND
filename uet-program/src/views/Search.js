@@ -38,7 +38,7 @@ export default function Search({ onSearch }) {
                 <tr>
                   <th scope="col">StudentID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Age</th>
+                  <th scope="col">Date Of Birth</th>
                   <th scope="col">Gender</th>
                   <th scope="col">Address</th>
                   <th scope="col">Phone</th>
@@ -50,7 +50,7 @@ export default function Search({ onSearch }) {
                     <tr>
                       <th scope="row">{student.studentId}</th>
                       <td>{student.name}</td>
-                      <td>{student.age}</td>
+                      <td>{student.dateOfBirth}</td>
                       <td>{student.gender}</td>
                       <td>{student.address}</td>
                       <td>{student.phone}</td>

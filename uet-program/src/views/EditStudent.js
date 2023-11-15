@@ -8,7 +8,7 @@ export default function EditStudent() {
     const [post, setPost] = useState({
         "studentId": "",
         "name": "",
-        "age": 0,
+        "dateOfBirth": "",
         "gender": "",
         "address": "",
         "phone": "",
@@ -25,7 +25,7 @@ export default function EditStudent() {
             setStudentGender(response.data.listOfGender)
             setStudentClass(response.data.listOfClassroom)
             setPost({...post, studentId: response.data.studentId, name: response.data.name,
-            age: response.data.age, address: response.data.address, phone: response.data.phone,
+            dateOfBirth: response.data.dateOfBirth, address: response.data.address, phone: response.data.phone,
             gender: response.data.gender, classFullName: response.data.classFullName})
             })
             .catch(error => console.log(error));
@@ -57,8 +57,8 @@ export default function EditStudent() {
                     <input value={post.name} type="text" className="form-control" onChange={handleInput} name="name"></input><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Age:</label>
-                    <input value={post.age} type="number" className="form-control" onChange={handleInput} name="age"></input><br></br>
+                    <label>Date Of Birth:</label>
+                    <input value={post.dateOfBirth} type="date" className="form-control" onChange={handleInput} name="dateOfBirth"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Gender:</label>

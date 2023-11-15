@@ -10,7 +10,7 @@ export default function AddStudent() {
     const [post, setPost] = useState({
         "studentId": "",
         "name": "",
-        "age": 0,
+        "dateOfBirth": "",
         "gender": "",
         "address": "",
         "phone": "",
@@ -57,8 +57,8 @@ export default function AddStudent() {
                     <input type="text" className="form-control" onChange={handleInput} name="name"></input><br></br>
                 </div>
                 <div className="form-group">
-                    <label>Age:</label>
-                    <input type="number" className="form-control" onChange={handleInput} name="age"></input><br></br>
+                    <label>Date Of Birth:</label>
+                    <input type="date" className="form-control" onChange={handleInput} name="dateOfBirth"></input><br></br>
                 </div>
                 <div className="form-group">
                     <label>Gender:</label>
