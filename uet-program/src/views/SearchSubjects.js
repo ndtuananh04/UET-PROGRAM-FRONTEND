@@ -21,7 +21,7 @@ export default function SearchSubjects({ onSearch }) {
 //   };
 
   useEffect(() => {
-    axios.get('http://localhost:8080/myprogram/subjects/new')
+    axios.get('http://localhost:8080/myprogram/programsubjects/new')
         .then(response => {
         console.log(response.data.listOfSubjectId)
         setRoleTypeList(response.data.listRoleType)
@@ -88,7 +88,7 @@ export default function SearchSubjects({ onSearch }) {
       <table className="table table-hover">
         </table>
         <br></br>
-            <h1 className="text-center">Subject page</h1>
+            <h1 className="text-center">Program Subjects</h1>
             {Object.keys(groupedSubjects).map(roleType => (
             <div key={roleType}>
             <h2>{roleType}</h2>

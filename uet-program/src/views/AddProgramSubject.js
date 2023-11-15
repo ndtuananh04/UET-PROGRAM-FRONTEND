@@ -8,11 +8,13 @@ export default function AddProgramSubject() {
    
     const [post, setPost] = useState({
         "programFullCode": "",
-        "subjectId": ""
+        "subjectId": "",
+        "roleType": ""
     })
 
     const [listSubjectId, setListSubjectId] = useState([])
     const [listProgramCode, setListProgramCode] = useState([])
+    const [listRoleType, setListRoleType] = useState([]);
     
     const getProgramSubjectInfo = (e) => {
         // e.preventDefault()
@@ -21,6 +23,7 @@ export default function AddProgramSubject() {
             console.log(response.data)
             setListSubjectId(response.data.listOfSubjectId)
             setListProgramCode(response.data.listOfProgramFullCode)
+            setListRoleType(response.data.listRoleType)
             })
             .catch(error => console.log(error));
     }
@@ -60,6 +63,17 @@ export default function AddProgramSubject() {
                         options={listSubjectId.map(t=>({value: t, label: t}))}
                         placeholder='None Selected'
                         onChange={e => setPost({...post, subjectId: e.value})}
+                        className="form-control"
+                    >
+                    </Select><br></br>
+                </div>
+                <div className="form-group">
+                    <label>Role Type:</label>
+                    <Select 
+                        name="roleType"
+                        options={listRoleType.map(t=>({value: t, label: t}))}
+                        placeholder='None Selected'
+                        onChange={e => setPost({...post, roleType: e.value})}
                         className="form-control"
                     >
                     </Select><br></br>

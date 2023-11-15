@@ -26,22 +26,12 @@ export default function Subject() {
       .catch(err => console.log(err));
     }
 
-    const groupedSubjects = {};
-    subjectList.forEach(subject => {
-      if (!groupedSubjects[subject.roleType]) {
-        groupedSubjects[subject.roleType] = [];
-      }
-      groupedSubjects[subject.roleType].push(subject);
-    });
-
     return (
         <div className='container'>
             <br></br>
             <h1 className="text-center">Subject page</h1>
             <Link to="/searchSubject"><button className="btn btn-primary">Search Subjects</button></Link>
-            {Object.keys(groupedSubjects).map(roleType => (
-            <div key={roleType}>
-            <h2>{roleType}</h2>
+            
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -52,23 +42,23 @@ export default function Subject() {
                   <th scope="col">Change</th>
                 </tr>
               </thead >
-              <tbody>
-              {groupedSubjects[roleType].map((subject, idx) => (
-                <tr key={idx}>
-                  <th scope="row">{subject.subjectid}</th>
-                  <td>{subject.subjectName}</td>
-                  <td>{subject.credit}</td>
-                  <td>{subject.prerequisiteSubjectId}</td>
-                  <td>
-                    <Link className='btn btn-sm' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
-                    <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-sm'>Delete</button>
-                  </td>
-                </tr>
-              ))}
-              </tbody>
+              {
+                subjectList.map((subject, idx) => {
+                    return <tbody key={idx}>
+                      <tr>
+                        <th scope="row">{subject.subjectid}</th>
+                        <td>{subject.subjectName}</td>
+                        <td>{subject.credit}</td>
+                        <td>{subject.prerequisiteSubjectId}</td>
+                        <td>
+                        <Link className='btn btn-sm' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
+                        <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-sm'>Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                })
+              }
             </table>
-            </div>
-            ))}
             <Link to="/subjects/new"><button className="btn btn-primary">Add Subject</button></Link>
         </div>
     )

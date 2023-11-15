@@ -9,19 +9,16 @@ export default function EditSubject() {
         "subjectid": "",
         "subjectName": "",
         "credit": 0,
-        "roleType": "",
         "prerequisiteSubjectId": []
     })
     const {id} = useParams();
     const [subjectList, setSubjectList] = useState([])
-    const [roleTypeList, setRoleTypeList] = useState([])
     
     useEffect(() => {
         axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
             .then(response => {
             console.log(response.data)
             setSubjectList(response.data.listOfSubjectId)
-            setRoleTypeList(response.data.listRoleType)
             setPost({...post, subjectid: response.data.subjectid, subjectName: response.data.subjectName, credit: response.data.credit,
             prerequisiteSubjectId: response.data.prerequisiteSubjectId, roleType: response.data.roleType})
             })
@@ -57,18 +54,6 @@ export default function EditSubject() {
                 <div className="form-group">
                     <label>Credit:</label> 
                     <input value={post.credit} type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>Role Type:</label>
-                    <Select 
-                        name="roleType"
-                        options={roleTypeList.map(tt=>({value: tt, label: tt}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, roleType: e.value})}
-                        className="form-control"
-                        value={{ label: post.roleType, value: post.roleType }}
-                    >
-                    </Select><br></br>
                 </div>
                 <div className="form-group">
                     <label>Prerequisite Subject:</label>

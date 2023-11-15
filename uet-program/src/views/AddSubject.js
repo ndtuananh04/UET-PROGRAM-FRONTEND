@@ -10,19 +10,16 @@ export default function AddSubject() {
         "subjectid": "",
         "subjectName": "",
         "credit": 0,
-        "roleType": "",
         "prerequisiteSubjectId": []
     })
 
     const [subjectList, setSubjectList] = useState([])
-    const [roleTypeList, setRoleTypeList] = useState([])
     
     useEffect(() => {
         axios.get(URL)
             .then(response => {
             console.log(response.data.listOfSubjectId)
             setSubjectList(response.data.listOfSubjectId)
-            setRoleTypeList(response.data.listRoleType)
             })
             .catch(error => console.log(error));
     },[])
@@ -57,17 +54,6 @@ export default function AddSubject() {
                 <div className="form-group">
                     <label>Credit:</label> 
                     <input type="number" className="form-control" onChange={handleInput} name="credit"></input><br></br>
-                </div>
-                <div className="form-group">
-                    <label>Role Type:</label>
-                    <Select 
-                        name="roleType"
-                        options={roleTypeList.map(t=>({value: t, label: t}))}
-                        placeholder='None Selected'
-                        onChange={e => setPost({...post, roleType: e.value})}
-                        className="form-control"
-                    >
-                    </Select><br></br>
                 </div>
                 <div className="form-group">
                     <label>Prerequisite Subject:</label>
