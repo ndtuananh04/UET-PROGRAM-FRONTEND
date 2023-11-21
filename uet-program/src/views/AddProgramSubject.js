@@ -36,7 +36,7 @@ export default function AddProgramSubject() {
     }
 
     return (
-        <div className="container">
+        <div className="container pt-5">
             {
               listProgramCode.length < 1 ? getProgramSubjectInfo() : ''
             }

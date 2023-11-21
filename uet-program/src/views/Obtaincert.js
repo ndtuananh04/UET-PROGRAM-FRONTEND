@@ -2,20 +2,31 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 const URL = 'http://localhost:8080/myprogram/obtaincerts'
 
 export default function Obtaincert() {
   const [count, setCount] = useState(0);
   const [certList, setCertList] = useState([]);
-    useEffect(() => {
-      axios.get(URL)
-      .then(response => {
-      console.log(response.data)
-      setCertList(response.data)
-      })
-      .catch(error => console.log(error));
-    },[count])
+  useEffect(() => {
+    request(
+      "GET",
+      'obtaincerts',
+      {}).then(
+      (response) => {
+        console.log(response.data)
+        setCertList(response.data)
+      }).catch(
+      (error) => {
+          if (error.response.status === 401) {
+              setAuthHeader(null);
+          } else {
+              this.setState({data: error.response.code})
+          }
+      }
+  );
+  },[count])
     
     const deleteCert = (id, id2, e) => {
       e.preventDefault();
@@ -28,7 +39,7 @@ export default function Obtaincert() {
     }
 
     return (
-        <div className='container'>
+        <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Certificate page</h1>
             <table className="table table-hover">

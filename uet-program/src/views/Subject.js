@@ -2,36 +2,53 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
-const URL = 'http://localhost:8080/myprogram/subjects'
 
 export default function Subject() {
     const [subjectList, setSubjectList] = useState([]);
     const [count, setCount] = useState(0);
     useEffect(() => {
-      axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setSubjectList(response.data)
-            })
-            .catch(error => console.log(error));
+      request(
+        "GET",
+        'subjects',
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setSubjectList(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+    );
     },[count])
     const deleteSubject = (id, e) => {
       e.preventDefault();
-      axios.delete(`http://localhost:8080/myprogram/subjects/delete/${id}`)
-      .then(response => {
-        console.log('Delete', response)
-        setCount(count+1)
-      })
-      .catch(err => console.log(err));
+      request(
+        "DELETE",
+        `subjects/subjects/delete/${id}`,
+        {}).then(
+        (response) => {
+          console.log("deleted")
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+    );
     }
 
     return (
-        <div className='container'>
+        <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Subject page</h1>
-            <Link to="/searchSubject"><button className="btn btn-primary">Search Subjects</button></Link>
-            
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -49,7 +66,7 @@ export default function Subject() {
                         <th scope="row">{subject.subjectid}</th>
                         <td>{subject.subjectName}</td>
                         <td>{subject.credit}</td>
-                        <td>{subject.prerequisiteSubjectId}</td>
+                        <td>{subject.prerequisiteSubjectId.join(',')}</td>
                         <td>
                         <Link className='btn btn-sm' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
                         <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-sm'>Delete</button>

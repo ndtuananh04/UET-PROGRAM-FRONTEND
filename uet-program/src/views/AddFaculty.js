@@ -24,7 +24,7 @@ export default function AddFaculty() {
     }
 
     return (
-        <div className="container">
+        <div className="container pt-5">
             <br></br>
             <div>
                 <h1 className="text-center">Add Faculty</h1>

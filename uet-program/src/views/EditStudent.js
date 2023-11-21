@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useParams } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function EditStudent() {
     
@@ -18,18 +19,41 @@ export default function EditStudent() {
     const [studentGender, setStudentGender] = useState([])
     const [studentClass, setStudentClass] = useState([])
 
-    useEffect(()=> {
-        axios.get(`http://localhost:8080/myprogram/students/edit/${id}`)
-            .then(response => {
+    // useEffect(()=> {
+    //     axios.get(`http://localhost:8080/myprogram/students/edit/${id}`)
+    //         .then(response => {
+    //         console.log(response.data)
+    //         setStudentGender(response.data.listOfGender)
+    //         setStudentClass(response.data.listOfClassroom)
+    //         setPost({...post, studentId: response.data.studentId, name: response.data.name,
+    //         dateOfBirth: response.data.dateOfBirth, address: response.data.address, phone: response.data.phone,
+    //         gender: response.data.gender, classFullName: response.data.classFullName})
+    //         })
+    //         .catch(error => console.log(error));
+    // },[])
+
+    useEffect(() => {
+        request(
+          "GET",
+          `students/edit/${id}`,
+          {}).then(
+          (response) => {
             console.log(response.data)
             setStudentGender(response.data.listOfGender)
             setStudentClass(response.data.listOfClassroom)
             setPost({...post, studentId: response.data.studentId, name: response.data.name,
             dateOfBirth: response.data.dateOfBirth, address: response.data.address, phone: response.data.phone,
             gender: response.data.gender, classFullName: response.data.classFullName})
-            })
-            .catch(error => console.log(error));
-    },[])
+          }).catch(
+          (error) => {
+              if (error.response.status === 401) {
+                  setAuthHeader(null);
+              } else {
+                  this.setState({data: error.response.code})
+              }
+          }
+      );
+      },[])
 
     const handleInput = (event) => {
         setPost({...post, [event.target.name]: event.target.value})
@@ -42,7 +66,7 @@ export default function EditStudent() {
     }
 
     return (    
-        <div className="container">
+        <div className="container pt-5">
             <br></br>
             <div>
                 <h1 className="text-center">Edit Student</h1>

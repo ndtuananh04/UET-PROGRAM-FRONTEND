@@ -1,22 +1,33 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 const URL = 'http://localhost:8080/myprogram/classrooms'
 
 export default function Classroom() {
   const [count,setCount] = useState(0);  
   const [classroomList, setClassroomList] = useState([]);
-    useEffect(() => {
-      axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setClassroomList(response.data)
-            })
-            .catch(error => console.log(error));
-    },[count])
+  useEffect(() => {
+    request(
+      "GET",
+      'classrooms',
+      {}).then(
+      (response) => {
+        console.log(response.data)
+        setClassroomList(response.data)
+      }).catch(
+      (error) => {
+          if (error.response.status === 401) {
+              setAuthHeader(null);
+          } else {
+              this.setState({data: error.response.code})
+          }
+      }
+  );
+  },[count])
     return (
-        <div className='container'>
+        <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Classroom page</h1>
             <table className="table table-hover">

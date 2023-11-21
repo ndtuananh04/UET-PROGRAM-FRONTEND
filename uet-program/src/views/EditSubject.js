@@ -37,7 +37,7 @@ export default function EditSubject() {
     }
 
     return (
-        <div className="container">
+        <div className="container pt-5">
             <br></br>
             <div>
                 <h1 className="text-center">Edit Subject</h1>

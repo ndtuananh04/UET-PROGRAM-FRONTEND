@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from '../node_modules/react-bootstrap/Nav';
 import Navbar from '../node_modules/react-bootstrap/Navbar';
 import NavDropdown from '../node_modules/react-bootstrap/NavDropdown';
+import Image from '../node_modules/react-bootstrap/Image';
 import HomePage from './views/Home';
 import StudentPage from './views/Student';
 import AddStudent from './views/AddStudent';
@@ -34,6 +35,10 @@ import AddCert from './views/AddCert';
 import EditCert from './views/EditCert';
 import Search from './views/Search';
 import SearchSubjects from './views/SearchSubjects';
+import Graduation from './views/Graduation';
+import SendMail from './views/SendMail';
+import Header from './components/Header';
+import AppContent from './components/AppContent';
 
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
@@ -43,8 +48,9 @@ function App() {
   
   return (
     <div>
-    <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
+    <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
       <Container>
+        <Image src="UET.png" className="App-logo" alt="logo" rounded width="35" />
         <Link to="/" className="navbar-brand mb-0 h1">UET PROGRAM</Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -54,6 +60,7 @@ function App() {
             <Link to="/faculties" className="nav-link">Falcuties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
+            <Link to="/sendmail" className="nav-link">Notifications</Link>
             <NavDropdown title="Relations" id="basic-nav-dropdown">
               <Link to="/attendances" className="nav-link text-center">Attendances</Link>
               <Link to="/marksubjects" className="nav-link text-center">Marks</Link>
@@ -70,6 +77,7 @@ function App() {
                 Separated link
               </NavDropdown.Item> */}
             </NavDropdown>
+            <Link to="/login" className="nav-link">Login</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -101,7 +109,11 @@ function App() {
         <Route path="/obtaincerts/new" element={<AddCert/>} />
         <Route path="/obtaincerts/edit/:id" element={<EditCert/>} />
         <Route path="/searchid" element={<Search />} />
-        <Route path="/searchSubject" element={<SearchSubjects />} />
+        <Route path="/searchSubject/:id/:id2" element={<SearchSubjects/>} />
+        <Route path="/graduation/:id/:id2" element={<Graduation/>} />
+        <Route path="/sendmail" element={<SendMail/>} />
+        <Route path="/login" element={<AppContent />} />
+        <Route path="/register" element={<AppContent />} />
       </Routes>
     </div>
   );

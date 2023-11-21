@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
+import { Routes, Route, Link } from 'react-router-dom';
 
 export default function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +22,7 @@ export default function Search({ onSearch }) {
   };
 
   return (
-    <div className="container">
+    <div className="container pt-5">
     <br></br>
     <Form inline onSubmit={event =>handleSubmit(event)}>
       <FormControl
@@ -33,32 +34,39 @@ export default function Search({ onSearch }) {
       /><br></br>
       <Button type="submit" variant="outline-success">Search</Button>
       <br></br>
-      <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">StudentID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Date Of Birth</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Class</th>
-                  <th scope="col">Program</th>
-                </tr>
-              </thead>
-                 <tbody>
-                    <tr>
-                      <th scope="row">{student.studentId}</th>
-                      <td>{student.name}</td>
-                      <td>{student.dateOfBirth}</td>
-                      <td>{student.gender}</td>
-                      <td>{student.address}</td>
-                      <td>{student.phone}</td>
-                      <td>{student.classFullName}</td>
-                      <td>{student.programFullCode}</td>
-                    </tr>
-                  </tbody>
-            </table>
+      {student === '' ? '' : 
+        <table className="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">StudentID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date Of Birth</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Address</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Class</th>
+            <th scope="col">Program</th>
+          </tr>
+        </thead>
+           <tbody>
+              <tr>
+                <th scope="row">{student.studentId}</th>
+                <td>{student.name}</td>
+                <td>{student.dateOfBirth}</td>
+                <td>{student.gender}</td>
+                <td>{student.address}</td>
+                <td>{student.phone}</td>
+                <td>{student.classFullName}</td>
+                <td>{student.programFullCode}</td>
+                <td>
+                <Link className='btn btn-sm' to={`/searchSubject/${student.studentId}/${student.programFullCode}`}>Info</Link>
+                <Link className='btn btn-sm' to={`/graduation/${student.studentId}/${student.programFullCode}`}>Grad Status</Link>
+                </td>
+              </tr>
+            </tbody>
+      </table>
+      }
+      
     </Form>
     </div>
   )

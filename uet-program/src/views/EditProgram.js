@@ -55,7 +55,7 @@ export default function EditProgram() {
     }
 
     return (
-        <div className="container">
+        <div className="container pt-5">
             <br></br>
             <div>
                 <h1 className="text-center">Edit Program</h1>

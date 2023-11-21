@@ -2,15 +2,18 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
+import { useParams } from 'react-router-dom';
 
-export default function SearchSubjects({ onSearch }) {
-  const [searchTermId, setSearchTermId] = useState('');
-  const [searchTermProgram, setSearchTermProgram] = useState('');
+export default function SearchSubjects() {
+  // const [searchTermId, setSearchTermId] = useState('');
+  // const [searchTermProgram, setSearchTermProgram] = useState('');
   const [status, setStatus] = useState('');
   const [student, setStudent] = useState('');
   const [roleTypeList, setRoleTypeList] = useState([]);
   const [roleType, setRoleType] = useState('');
   const [subjectList, setSubjectList] = useState([]);
+  const {id} = useParams();
+  const {id2} = useParams();
 
 //   const handleChange1 = (event) => {
 //     setSearchTermId(event.target.value);
@@ -23,15 +26,21 @@ export default function SearchSubjects({ onSearch }) {
   useEffect(() => {
     axios.get('http://localhost:8080/myprogram/programsubjects/new')
         .then(response => {
-        console.log(response.data.listOfSubjectId)
         setRoleTypeList(response.data.listRoleType)
+        })
+        .catch(error => console.log(error));
+    axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}`)
+        .then(response => {
+        console.log(response.data)
+        console.log("a")
+        setSubjectList(response.data)
         })
         .catch(error => console.log(error));
     },[])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.get(`http://localhost:8080/myprogram/searchSubject/${searchTermId}/${searchTermProgram}?status=${status}&roleType=${roleType}`)
+    axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`)
             .then(response => {
             console.log(response.data)
             setSubjectList(response.data)
@@ -48,17 +57,9 @@ export default function SearchSubjects({ onSearch }) {
     });
 
   return (
-    <div className="container">
+    <div className="container pt-5">
     <br></br>
     <Form inline onSubmit={event =>handleSubmit(event)}>
-        <div className="form-group">
-            <label>Student ID:</label>
-            <input type="text" className="form-control" onChange={event => setSearchTermId(event.target.value)}></input><br></br>
-        </div>
-        <div className="form-group">
-            <label>Program:</label> 
-            <input type="text" className="form-control" onChange={event => setSearchTermProgram(event.target.value)}></input><br></br>
-        </div>
         <div className="form-group">
             <label>Status:</label>
             <Select 
@@ -97,7 +98,10 @@ export default function SearchSubjects({ onSearch }) {
                 <tr>
                   <th scope="col">SubjectName</th>
                   <th scope="col">Credit</th>
-                  <th scope="col">Mark</th>
+                  { 
+                    subjectList[0].mark != null
+                    ? <th scope="col">Mark</th> : <th scope="col">Prerequisite Subject</th>
+                  }
                 </tr>
               </thead >
               <tbody>
@@ -105,7 +109,12 @@ export default function SearchSubjects({ onSearch }) {
                 <tr key={idx}>
                   <th scope="row">{subject.subjectName}</th>
                   <td>{subject.credit}</td>
-                  <td>{subject.mark}</td>
+                  <td>
+                    {
+                      subject.mark!=null ? subject.mark : subject.roleType
+                    }
+                  
+                  </td>
                   <td>
                   </td>
                 </tr>

@@ -2,21 +2,39 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 const URL = 'http://localhost:8080/myprogram/students'
 
 export default function Student() {
   const [count, setCount] = useState(0);
   const [studentList, setStudentList] = useState([]);
+    // useEffect(() => {
+    //   axios.get(URL)
+    //   .then(response => {
+    //   console.log(response.data)
+    //   setStudentList(response.data)
+    //   })
+    //   .catch(error => console.log(error));
+    // },[count])
     useEffect(() => {
-      axios.get(URL)
-      .then(response => {
-      console.log(response.data)
-      setStudentList(response.data)
-      })
-      .catch(error => console.log(error));
+      request(
+        "GET",
+          URL,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setStudentList(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+    );
     },[count])
-    
     const deleteStudent = (id, e) => {
       e.preventDefault();
       axios.delete(`http://localhost:8080/myprogram/students/delete/${id}`)
@@ -28,7 +46,7 @@ export default function Student() {
     }
 
     return (
-        <div className='container'>
+        <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Student page</h1>
             <Link to="/searchid"><button className="btn btn-primary">Search Student</button></Link>
@@ -55,8 +73,10 @@ export default function Student() {
                               <td>{student.address}</td>
                               <td>{student.phone}</td>
                               <td>{student.classFullName}</td>
-                              <Link className='btn btn-sm' to={`/students/edit/${student.studentId}`}>Edit</Link>
-                              <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm'>Delete</button>
+                              <td>
+                                <Link className='btn btn-sm' to={`/students/edit/${student.studentId}`}>Edit</Link>
+                                <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm'>Delete</button>
+                              </td>
                             </tr>
                             </tbody>
                 })

@@ -1,20 +1,29 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-
-const URL = 'http://localhost:8080/myprogram/attendances'
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function Attendance() {
   const [count,setCount] = useState(0);  
   const [attendanceList, setAttendanceList] = useState([]);
-    useEffect(() => {
-      axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setAttendanceList(response.data)
-            })
-            .catch(error => console.log(error));
-    },[count])
+  useEffect(() => {
+    request(
+      "GET",
+      'attendances',
+      {}).then(
+      (response) => {
+        console.log(response.data)
+        setAttendanceList(response.data)
+      }).catch(
+      (error) => {
+          if (error.response.status === 401) {
+              setAuthHeader(null);
+          } else {
+              this.setState({data: error.response.code})
+          }
+      }
+  );
+  },[count])
 
     const deleteAttendance = (id, id2, e) => {
         e.preventDefault();
@@ -27,7 +36,7 @@ export default function Attendance() {
       }
 
     return (
-        <div className='container'>
+        <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Attendance page</h1>
             <table className="table table-hover">
