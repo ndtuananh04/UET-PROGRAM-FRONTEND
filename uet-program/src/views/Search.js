@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
+
 
 export default function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,12 +15,28 @@ export default function Search({ onSearch }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.get(`http://localhost:8080/myprogram/searchid/${searchTerm}`)
-            .then(response => {
-            console.log(response.data)
-            setStudent(response.data)
-            })
-            .catch(error => console.log(error));
+    // axios.get(`http://localhost:8080/myprogram/searchid/${searchTerm}`)
+    //         .then(response => {
+    //         console.log(response.data)
+    //         setStudent(response.data)
+    //         })
+    //         .catch(error => console.log(error));
+    request(
+        "GET",
+        `searchid/${searchTerm}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setStudent(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
   };
 
   return (

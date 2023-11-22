@@ -7,8 +7,8 @@ export default class WelcomeContent extends React.Component {
         <div className="row justify-content-md-center">
             <div className="jumbotron jumbotron-fluid">
               <div className="container">
-                <h1 className="display-4">Welcome</h1>
-                <p className="lead">Login to see protected content.</p>
+                <h1 className="text-center display-4">Welcome to UET Program</h1>
+                <p className="text-center lead">Login to continue</p>
               </div>
             </div>
         </div>

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import { useParams } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
+
 
 export default function SearchSubjects() {
   // const [searchTermId, setSearchTermId] = useState('');
@@ -24,28 +26,75 @@ export default function SearchSubjects() {
 //   };
 
   useEffect(() => {
-    axios.get('http://localhost:8080/myprogram/programsubjects/new')
-        .then(response => {
-        setRoleTypeList(response.data.listRoleType)
-        })
-        .catch(error => console.log(error));
-    axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}`)
-        .then(response => {
-        console.log(response.data)
-        console.log("a")
-        setSubjectList(response.data)
-        })
-        .catch(error => console.log(error));
-    },[])
+    // axios.get('http://localhost:8080/myprogram/programsubjects/new')
+    //     .then(response => {
+    //     setRoleTypeList(response.data.listRoleType)
+    //     })
+    //     .catch(error => console.log(error));
+    request(
+        "GET",
+        'programsubjects/new',
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setRoleTypeList(response.data.listRoleType)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
+    // axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}`)
+    //     .then(response => {
+    //     console.log(response.data)
+    //     setSubjectList(response.data)
+    //     })
+    //     .catch(error => console.log(error));
+    request(
+        "GET",
+        `searchSubject/${id}/${id2}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setSubjectList(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
+  },[])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`)
-            .then(response => {
-            console.log(response.data)
-            setSubjectList(response.data)
-            })
-            .catch(error => console.log(error));
+    // axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`)
+    //         .then(response => {
+    //         console.log(response.data)
+    //         setSubjectList(response.data)
+    //         })
+    //         .catch(error => console.log(error));
+    request(
+        "GET",
+        `searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setSubjectList(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
   };
 
   const groupedSubjects = {};

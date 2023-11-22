@@ -27,12 +27,27 @@ export default function Attendance() {
 
     const deleteAttendance = (id, id2, e) => {
         e.preventDefault();
-        axios.delete(`http://localhost:8080/myprogram/attendances/delete/${id}&${id2}`)
-        .then(response => {
-          console.log('Delete', response)
-          setCount(count+1)
-        })
-        .catch(err => console.log(err));
+        // axios.delete(`http://localhost:8080/myprogram/attendances/delete/${id}&${id2}`)
+        // .then(response => {
+        //   console.log('Delete', response)
+        //   setCount(count+1)
+        // })
+        // .catch(err => console.log(err));
+        request(
+          "DELETE",
+          `attendances/delete/${id}&${id2}`,
+          {}).then(
+          (response) => {
+            console.log(response.data)
+          }).catch(
+          (error) => {
+              if (error.response.status === 401) {
+                  // setAuthHeader(null);
+              } else {
+                  this.setState({data: error.response.code})
+              }
+          }
+        );
       }
 
     return (

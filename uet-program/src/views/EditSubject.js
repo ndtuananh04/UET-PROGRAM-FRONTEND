@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
 import { useParams } from 'react-router-dom';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function EditSubject() {
     
@@ -15,14 +16,32 @@ export default function EditSubject() {
     const [subjectList, setSubjectList] = useState([])
     
     useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
-            .then(response => {
-            console.log(response.data)
-            setSubjectList(response.data.listOfSubjectId)
+        // axios.get(`http://localhost:8080/myprogram/subjects/edit/${id}`)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setSubjectList(response.data.listOfSubjectId)
+        //     setPost({...post, subjectid: response.data.subjectid, subjectName: response.data.subjectName, credit: response.data.credit,
+        //     prerequisiteSubjectId: response.data.prerequisiteSubjectId, roleType: response.data.roleType})
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+            "GET",
+            `subjects/edit/${id}`,
+            {}).then(
+            (response) => {
+              console.log(response.data)
+              setSubjectList(response.data.listOfSubjectId)
             setPost({...post, subjectid: response.data.subjectid, subjectName: response.data.subjectName, credit: response.data.credit,
             prerequisiteSubjectId: response.data.prerequisiteSubjectId, roleType: response.data.roleType})
-            })
-            .catch(error => console.log(error));
+            }).catch(
+            (error) => {
+                if (error.response.status === 401) {
+                    // setAuthHeader(null);
+                } else {
+                    this.setState({data: error.response.code})
+                }
+            }
+          );
     }, [])
 
     const handleInput = (event) => {
@@ -31,9 +50,24 @@ export default function EditSubject() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.put('http://localhost:8080/myprogram/subjects/edit/save', post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.put('http://localhost:8080/myprogram/subjects/edit/save', post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        request(
+            "PUT",
+            'subjects/edit/save',
+            post).then(
+            (response) => {
+              console.log(response.data)
+            }).catch(
+            (error) => {
+                if (error.response.status === 401) {
+                    // setAuthHeader(null);
+                } else {
+                    this.setState({data: error.response.code})
+                }
+            }
+          );
     }
 
     return (

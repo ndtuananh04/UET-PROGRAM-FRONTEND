@@ -60,9 +60,26 @@ export default function EditStudent() {
     }
     function handleSubmit(event) {
         event.preventDefault();
-        axios.put('http://localhost:8080/myprogram/students/edit/save', post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.put('http://localhost:8080/myprogram/students/edit/save', post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        console.log(post)
+        request(
+          "PUT",
+          'students/edit/save',
+          post).then(
+          (response) => {
+            console.log(response.data)
+
+          }).catch(
+          (error) => {
+              if (error.response.status === 401) {
+                //   setAuthHeader(null); //nêu bỏ dòng này đi để đỡ pải login lại
+              } else {
+                  this.setState({data: error.response.code})
+              }
+          }
+      );
     }
 
     return (    

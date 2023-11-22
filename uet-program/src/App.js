@@ -39,6 +39,7 @@ import Graduation from './views/Graduation';
 import SendMail from './views/SendMail';
 import Header from './components/Header';
 import AppContent from './components/AppContent';
+import GraduationRate from './views/GraduationRate';
 
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
@@ -60,6 +61,7 @@ function App() {
             <Link to="/faculties" className="nav-link">Falcuties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
+            <Link to="/statistic/graduation" className="nav-link">Statistic</Link>
             <Link to="/sendmail" className="nav-link">Notifications</Link>
             <NavDropdown title="Relations" id="basic-nav-dropdown">
               <Link to="/attendances" className="nav-link text-center">Attendances</Link>
@@ -77,7 +79,12 @@ function App() {
                 Separated link
               </NavDropdown.Item> */}
             </NavDropdown>
-            <Link to="/login" className="nav-link">Login</Link>
+            
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+        <Nav className="d-flex">
+          <Link to="/login" className="nav-link">Login</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -114,6 +121,7 @@ function App() {
         <Route path="/sendmail" element={<SendMail/>} />
         <Route path="/login" element={<AppContent />} />
         <Route path="/register" element={<AppContent />} />
+        <Route path="/statistic/graduation" element={<GraduationRate />} />
       </Routes>
     </div>
   );

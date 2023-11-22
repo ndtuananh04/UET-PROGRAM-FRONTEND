@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
+import { request, setAuthHeader } from '../helpers/axios_helper';
+
 
 export default function SendMail() {
     const [mail, setMail] = useState({
@@ -16,9 +18,24 @@ export default function SendMail() {
     function handleSubmit(event) {
         event.preventDefault();
         console.log(mail)
-        axios.post('http://localhost:8080/myprogram/mail/send/save', mail)
-        .then(response => console.log(response))
-        .catch(err => console.log(err))
+        // axios.post('http://localhost:8080/myprogram/mail/send/save', mail)
+        // .then(response => console.log(response))
+        // .catch(err => console.log(err))
+        request(
+            "POST",
+            'mail/send/save',
+            mail).then(
+            (response) => {
+              console.log(response.data)
+            }).catch(
+            (error) => {
+                if (error.response.status === 401) {
+                    // setAuthHeader(null);
+                } else {
+                    this.setState({data: error.response.code})
+                }
+            }
+          );
     }
 
     return (

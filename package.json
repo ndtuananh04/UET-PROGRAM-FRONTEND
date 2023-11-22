@@ -6,6 +6,7 @@
     "match-sorter": "^6.3.1",
     "react-dropdown-select": "^4.10.0",
     "react-router-dom": "^6.17.0",
+    "recharts": "^2.10.1",
     "sort-by": "^1.2.0",
     "xlsx": "^0.18.5"
   }

@@ -34,6 +34,21 @@ export default function Program() {
         setCount(count+1)
       })
       .catch(err => console.log(err));
+      request(
+        "DELETE",
+        `programs/delete/${id}-${id2}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
 
     return (

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
 import { useParams } from 'react-router-dom';
-
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function EditCert() {
    
@@ -18,15 +18,34 @@ export default function EditCert() {
     const [levelList, setLevelList] = useState([])
     
     useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/obtaincerts/edit/${id}`)
-            .then(response => {
-            console.log(response.data)
-            setCertTypeList(response.data.certificateTypeList)
+        // axios.get(`http://localhost:8080/myprogram/obtaincerts/edit/${id}`)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setCertTypeList(response.data.certificateTypeList)
+        //     setLevelList(response.data.levelLanguageList)
+        //     setPost({...post, studentId: response.data.studentId, certificateType: response.data.certificateType,
+        //     levelLanguage: response.data.levelLanguage, submissionDate: response.data.submissionDate})
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+        "GET",
+        `obtaincerts/edit/${id}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setCertTypeList(response.data.certificateTypeList)
             setLevelList(response.data.levelLanguageList)
             setPost({...post, studentId: response.data.studentId, certificateType: response.data.certificateType,
             levelLanguage: response.data.levelLanguage, submissionDate: response.data.submissionDate})
-            })
-            .catch(error => console.log(error));
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     },[]);
 
     const handleInput = (event) => {
@@ -39,6 +58,21 @@ export default function EditCert() {
         axios.put('http://localhost:8080/myprogram/obtaincerts/edit/save', post)
                 .then(response => console.log(response))
                 .catch(err => console.log(err));
+        request(
+        "PUT",
+        'obtaincerts/edit/save',
+        post).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
 
     return (

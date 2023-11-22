@@ -19,12 +19,12 @@ export default function Subject() {
         }).catch(
         (error) => {
             if (error.response.status === 401) {
-                setAuthHeader(null);
+                // setAuthHeader(null);
             } else {
                 this.setState({data: error.response.code})
             }
         }
-    );
+      );
     },[count])
     const deleteSubject = (id, e) => {
       e.preventDefault();
@@ -37,7 +37,7 @@ export default function Subject() {
         }).catch(
         (error) => {
             if (error.response.status === 401) {
-                setAuthHeader(null);
+                // setAuthHeader(null);
             } else {
                 this.setState({data: error.response.code})
             }

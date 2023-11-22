@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function Graduation() {
     const [data, setData] = useState({});
@@ -10,18 +11,50 @@ export default function Graduation() {
     const [student, setStudent] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/graduation/${id}/${id2}`)
-        .then(response => {
-        console.log(response.data)
-        setData(response.data)
-        })
-        .catch(error => console.log(error));
-        axios.get(`http://localhost:8080/myprogram/searchid/${id}`)
-            .then(response => {
+        // axios.get(`http://localhost:8080/myprogram/graduation/${id}/${id2}`)
+        // .then(response => {
+        // console.log(response.data)
+        // setData(response.data)
+        // })
+        // .catch(error => console.log(error));
+        request(
+          "GET",
+          `graduation/${id}/${id2}`,
+          {}).then(
+          (response) => {
+            console.log(response.data)
+            setData(response.data)
+          }).catch(
+          (error) => {
+              if (error.response.status === 401) {
+                  // setAuthHeader(null);
+              } else {
+                  this.setState({data: error.response.code})
+              }
+          }
+        );
+        // axios.get(`http://localhost:8080/myprogram/searchid/${id}`)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setStudent(response.data)
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+          "GET",
+          `searchid/${id}`,
+          {}).then(
+          (response) => {
             console.log(response.data)
             setStudent(response.data)
-            })
-            .catch(error => console.log(error));
+          }).catch(
+          (error) => {
+              if (error.response.status === 401) {
+                  // setAuthHeader(null);
+              } else {
+                  this.setState({data: error.response.code})
+              }
+          }
+        );
       },[])
     return (
         <div className="container pt-5">

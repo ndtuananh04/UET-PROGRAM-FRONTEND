@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Select from 'react-select';
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function EditProgram() {
     
@@ -27,10 +28,27 @@ export default function EditProgram() {
     const [listFacultyName, setListFacultyName] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/programs/edit/${id}`)
-            .then(response => {
-            console.log(response.data)
-            setListProgramType(response.data.programTypeList)
+        // axios.get(`http://localhost:8080/myprogram/programs/edit/${id}`)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setListProgramType(response.data.programTypeList)
+        //     setListFacultyName(response.data.listOfFacultyName)
+        //     setPost({...post, programCode: response.data.programCode, programName: response.data.programName,
+        //         period: response.data.period, duration: response.data.duration, programType: response.data.programType,
+        //         facultyName: response.data.facultyName, totalCredits: response.data.totalCredits, totalOfMandatory: response.data.totalOfMandatory,
+        //         totalOfOptional: response.data.totalOfOptional, totalOfOptionalReinforcement: response.data.totalOfOptionalReinforcement,
+        //         totalOfPhysical: response.data.totalOfPhysical, totalOfNationalDefense: response.data.totalOfNationalDefense,
+        //         totalOfAdditional: response.data.totalOfAdditional, totalOfGraduationInternship: response.data.totalOfGraduationInternship,
+        //         })
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+        "GET",
+        `programs/edit/${id}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setListProgramType(response.data.programTypeList)
             setListFacultyName(response.data.listOfFacultyName)
             setPost({...post, programCode: response.data.programCode, programName: response.data.programName,
                 period: response.data.period, duration: response.data.duration, programType: response.data.programType,
@@ -39,8 +57,15 @@ export default function EditProgram() {
                 totalOfPhysical: response.data.totalOfPhysical, totalOfNationalDefense: response.data.totalOfNationalDefense,
                 totalOfAdditional: response.data.totalOfAdditional, totalOfGraduationInternship: response.data.totalOfGraduationInternship,
                 })
-            })
-            .catch(error => console.log(error));
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     },[])
 
     const handleInput = (event) => {
@@ -49,9 +74,24 @@ export default function EditProgram() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.put('http://localhost:8080/myprogram/programs/edit/save', post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.put('http://localhost:8080/myprogram/programs/edit/save', post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        request(
+        "PUT",
+        'programs/edit/save',
+        post).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
 
     return (

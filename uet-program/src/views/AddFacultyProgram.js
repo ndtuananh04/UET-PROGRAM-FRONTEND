@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
+import { request, setAuthHeader } from '../helpers/axios_helper';
+
 
 const URL = 'http://localhost:8080/myprogram/facultyprograms/new'
 
@@ -15,20 +17,52 @@ export default function AddFacultyProgram() {
     const [listProgramCode, setListProgramCode] = useState([])
     
     useEffect(() => {
-        axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setListFacultyName(response.data.listOfFacultyName)
+        // axios.get(URL)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setListFacultyName(response.data.listOfFacultyName)
+        //     setListProgramCode(response.data.listOfProgramFullCode)
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+        "GET",
+        'facultyprograms/new',
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setListFacultyName(response.data.listOfFacultyName)
             setListProgramCode(response.data.listOfProgramFullCode)
-            })
-            .catch(error => console.log(error));
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     },[])
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post(URL, post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.post(URL, post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        request(
+        "POST",
+        'facultyprograms/new',
+        post).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
     
     return (

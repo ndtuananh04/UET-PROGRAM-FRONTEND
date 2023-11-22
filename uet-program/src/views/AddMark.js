@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 const URL = 'http://localhost:8080/myprogram/marksubjects/new'
 
@@ -16,13 +17,30 @@ export default function AddMark() {
     const [listSubjectId, setListSubjectId] = useState([])
     
     useEffect(() => {
-        axios.get(URL)
-            .then(response => {
-            console.log(response.data)
-            setListStudentId(response.data.listOfStudentId)
+        // axios.get(URL)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setListStudentId(response.data.listOfStudentId)
+        //     setListSubjectId(response.data.listOfSubjectId)
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+        "GET",
+        'marksubjects/new',
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setListStudentId(response.data.listOfStudentId)
             setListSubjectId(response.data.listOfSubjectId)
-            })
-            .catch(error => console.log(error));
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     },[]);
 
     const handleInput = (event) => {
@@ -32,9 +50,24 @@ export default function AddMark() {
     function handleSubmit(event) {
         event.preventDefault();
         console.log(post)
-        axios.post(URL, post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.post(URL, post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        request(
+        "POST",
+        'marksubjects/new',
+        post).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
 
     return (

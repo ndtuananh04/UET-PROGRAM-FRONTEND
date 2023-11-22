@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
 import { useParams } from 'react-router-dom';
-
+import { request, setAuthHeader } from '../helpers/axios_helper';
 
 export default function EditMark() {
    
@@ -17,15 +17,34 @@ export default function EditMark() {
     const [listSubjectId, setListSubjectId] = useState([])
     
     useEffect(() => {
-        axios.get(`http://localhost:8080/myprogram/marksubjects/edit/${id}`)
-            .then(response => {
-            console.log(response.data)
-            setListStudentId(response.data.listOfStudentId)
+        // axios.get(`http://localhost:8080/myprogram/marksubjects/edit/${id}`)
+        //     .then(response => {
+        //     console.log(response.data)
+        //     setListStudentId(response.data.listOfStudentId)
+        //     setListSubjectId(response.data.listOfSubjectId)
+        //     setPost({...post, studentId: response.data.studentId, subjectId: response.data.subjectId,
+        //         mark: response.data.mark})
+        //     })
+        //     .catch(error => console.log(error));
+        request(
+        "GET",
+        `marksubjects/edit/${id}`,
+        {}).then(
+        (response) => {
+          console.log(response.data)
+          setListStudentId(response.data.listOfStudentId)
             setListSubjectId(response.data.listOfSubjectId)
             setPost({...post, studentId: response.data.studentId, subjectId: response.data.subjectId,
                 mark: response.data.mark})
-            })
-            .catch(error => console.log(error));
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     },[]);
 
     const handleInput = (event) => {
@@ -35,9 +54,24 @@ export default function EditMark() {
     function handleSubmit(event) {
         event.preventDefault();
         console.log(post)
-        axios.put('http://localhost:8080/myprogram/marksubjects/edit/save', post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.put('http://localhost:8080/myprogram/marksubjects/edit/save', post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
+        request(
+        "PUT",
+        'smarksubjects/edit/save',
+        post).then(
+        (response) => {
+          console.log(response.data)
+        }).catch(
+        (error) => {
+            if (error.response.status === 401) {
+                // setAuthHeader(null);
+            } else {
+                this.setState({data: error.response.code})
+            }
+        }
+      );
     }
 
     return (
