@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 import { request, setAuthHeader } from '../helpers/axios_helper';
 
@@ -7,9 +7,9 @@ import Buttons from './Buttons';
 import AuthContent from './AuthContent';
 import LoginForm from './LoginForm';
 import WelcomeContent from './WelcomeContent'
-
+import Home from '../views/Home';
 export default class AppContent extends React.Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +28,7 @@ export default class AppContent extends React.Component {
 
     onLogin = (e, username, password) => {
         e.preventDefault();
+        
         request(
             "POST",
             "/login",
@@ -37,10 +38,12 @@ export default class AppContent extends React.Component {
             }).then(
             (response) => {
                 setAuthHeader(response.data.token);
+                this.props.navigate('/'); 
             }).catch(
             (error) => {
                 setAuthHeader(null);
-                this.setState({componentToShow: "welcome"})
+                // this.setState({componentToShow: "welcome"})
+                alert('Username or Password is incorrect')
             }
         );
     };

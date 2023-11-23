@@ -30,9 +30,9 @@ export default function Classroom() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Classroom page</h1>
-            <table className="table table-hover">
+            <table className="table table-hover table-bordered table-info">
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th scope="col">Cohort</th>
                   <th scope="col">Class Name</th>
                 </tr>

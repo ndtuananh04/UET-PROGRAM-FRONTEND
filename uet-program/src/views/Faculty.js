@@ -31,9 +31,9 @@ export default function Faculty() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Faculty page</h1>
-            <table className="table table-hover">
+            <table className="table table-hover table-bordered table-info">
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th scope="col">Faculty Name</th>
                   <th scope="col">Address</th>
                   <th scope="col">Email</th>

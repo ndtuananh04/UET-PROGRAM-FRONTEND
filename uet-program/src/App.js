@@ -2,8 +2,9 @@ import './App.css';
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { CDBSidebarFooter, CDBBox, CDBFooterLink, CDBBtn, CDBIcon, CDBContainer } from 'cdbreact';
 import Nav from '../node_modules/react-bootstrap/Nav';
 import Navbar from '../node_modules/react-bootstrap/Navbar';
 import NavDropdown from '../node_modules/react-bootstrap/NavDropdown';
@@ -38,15 +39,15 @@ import SearchSubjects from './views/SearchSubjects';
 import Graduation from './views/Graduation';
 import SendMail from './views/SendMail';
 import Header from './components/Header';
-import AppContent from './components/AppContent';
+import AppContentWrapper from './components/AppContentWrapper';
 import GraduationRate from './views/GraduationRate';
+
 
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
 
 
 function App() {
-  
   return (
     <div>
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
@@ -84,11 +85,13 @@ function App() {
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
         <Nav className="d-flex">
-          <Link to="/login" className="nav-link">Login</Link>
+          <Link to="/login" className="nav-link">Sign in/Sign up</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    <Container fluid style={{ backgroundColor: '#6ea0cc' }} className="d-flex flex-column min-vh-100">
+    <Row className="flex-grow-1" style={{ marginLeft: '80px', marginRight: '80px' }}>
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/students" element={<StudentPage />} />
@@ -119,11 +122,46 @@ function App() {
         <Route path="/searchSubject/:id/:id2" element={<SearchSubjects/>} />
         <Route path="/graduation/:id/:id2" element={<Graduation/>} />
         <Route path="/sendmail" element={<SendMail/>} />
-        <Route path="/login" element={<AppContent />} />
-        <Route path="/register" element={<AppContent />} />
+        <Route path="/login" element={<AppContentWrapper />} />
+        <Route path="/register" element={<AppContentWrapper />} />
         <Route path="/statistic/graduation" element={<GraduationRate />} />
       </Routes>
+      </Row>
+      <CDBSidebarFooter style={{ backgroundColor: '#5278a3' }} className="shadow">
+      <CDBBox
+        display="flex"
+        justifyContent="between"
+        alignItems="center"
+        className="mx-auto py-4 flex-wrap"
+        style={{ width: '80%' }}
+      >
+        <CDBBox display="flex" alignItems="center">
+          <a href="/" className="d-flex align-items-center p-0 text-dark">
+            <img
+              alt="logo"
+              src="db.png"
+              width="40px"
+            />
+            <span className="ms-4 h5 mb-0 font-weight-bold">UET Program</span>
+          </a>
+          <small className="ms-2">&copy; Group 7, 2023. Everything to help you graduate on time</small>
+        </CDBBox>
+        <CDBBox display="flex">
+          <CDBBtn flat color="dark" className="p-2">
+            <CDBIcon fab icon="facebook-f" />
+          </CDBBtn>
+          <CDBBtn flat color="dark" className="mx-3 p-2">
+            <CDBIcon fab icon="twitter" />
+          </CDBBtn>
+          <CDBBtn flat color="dark" className="p-2">
+            <CDBIcon fab icon="instagram" />
+          </CDBBtn>
+        </CDBBox>
+      </CDBBox>
+    </CDBSidebarFooter>
+    </Container>
     </div>
+    
   );
 }
 

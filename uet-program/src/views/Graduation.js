@@ -61,7 +61,7 @@ export default function Graduation() {
           <br />
           <Row className="justify-content-md-center">
           <Col md="8">
-          <Card>
+          <Card  style={{ backgroundColor: '#78c6de', color: '#04151a' }}>
             <Card.Header as="h5">Student Information</Card.Header>
             <Card.Body>
               <Card.Text>
@@ -75,38 +75,39 @@ export default function Graduation() {
           </Col>
           </Row>
           <br/>
-          <Card>
+          <Card style={{ backgroundColor: '#78c6de', color: '#04151a' }}>
           <Card.Header>Graduation Status</Card.Header>
           <Card.Body>
-            <ListGroup variant="flush">
-              <ListGroupItem>
-                <strong>Condition Duration:</strong> {data.conditionDuration}
-              </ListGroupItem>
-              <ListGroupItem>
+            <Card.Text>
+              <strong> Condition Duration:</strong> {data.conditionDuration}
+            </Card.Text>
+            <ListGroup >
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Number of Credits:</strong> {data.numberCredit}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Mandatory Credits:</strong> {data.completedMandatory}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Optional Credits:</strong> {data.completedOptional}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Optional Reinforcement Credits:</strong> {data.completedOptionalReinforcement}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Physical Credits:</strong> {data.completedPhysical}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed National Defense Credits:</strong> {data.completedNationalDefense}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Additional Credits:</strong> {data.completedAdditional}
               </ListGroupItem>
-              <ListGroupItem>
+              <ListGroupItem style={{ backgroundColor: '#9fdbed', color: '#04151a' }}>
                 <strong>Completed Graduation Internship Credits:</strong> {data.completedGraduationInternship}
               </ListGroupItem>
             </ListGroup>
+            <br></br>
             <Card.Text>
               <strong> Current GPA:</strong> {data.gpaCondition}
             </Card.Text>
@@ -118,6 +119,7 @@ export default function Graduation() {
             </Card.Text>
           </Card.Body>
           </Card>
+          <br></br>
         </div>
         
       );

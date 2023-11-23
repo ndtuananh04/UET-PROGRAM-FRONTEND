@@ -41,21 +41,19 @@ export default function Search({ onSearch }) {
 
   return (
     <div className="container pt-5">
-    <br></br>
-    <Form inline onSubmit={event =>handleSubmit(event)}>
-      <FormControl
-        type="text"
-        placeholder="Search"
-        className="mr-sm-2"
-        value={searchTerm}
-        onChange={handleChange}
-      /><br></br>
-      <Button type="submit" variant="outline-success">Search</Button>
       <br></br>
+      <form onSubmit={handleSubmit}> 
+          <div className='form-group'>
+            <label>Student ID:</label>
+            <input type="text" value={searchTerm} placeholder="Search" className="form-control" onChange={handleChange} ></input><br></br>
+          </div>
+        <button type="submit" className='btn btn-primary'>Search</button>
+        </form>
+        <br></br>
       {student === '' ? '' : 
-        <table className="table table-hover">
+        <table className="table table-hover table-bordered table-info">
         <thead>
-          <tr>
+          <tr className='table-primary'>
             <th scope="col">StudentID</th>
             <th scope="col">Name</th>
             <th scope="col">Date Of Birth</th>
@@ -64,6 +62,7 @@ export default function Search({ onSearch }) {
             <th scope="col">Phone</th>
             <th scope="col">Class</th>
             <th scope="col">Program</th>
+            <th scope="col">Change</th>
           </tr>
         </thead>
            <tbody>
@@ -77,15 +76,14 @@ export default function Search({ onSearch }) {
                 <td>{student.classFullName}</td>
                 <td>{student.programFullCode}</td>
                 <td>
-                <Link className='btn btn-sm' to={`/searchSubject/${student.studentId}/${student.programFullCode}`}>Info</Link>
-                <Link className='btn btn-sm' to={`/graduation/${student.studentId}/${student.programFullCode}`}>Grad Status</Link>
+                <Link className='btn btn-sm btn-outline-info' to={`/searchSubject/${student.studentId}/${student.programFullCode}`}>Info</Link>
+                <Link className='btn btn-sm btn-outline-info' to={`/graduation/${student.studentId}/${student.programFullCode}`}>Grad Status</Link>
                 </td>
               </tr>
             </tbody>
       </table>
       }
       
-    </Form>
     </div>
   )
 }

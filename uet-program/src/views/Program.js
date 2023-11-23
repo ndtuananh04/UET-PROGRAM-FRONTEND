@@ -56,9 +56,9 @@ export default function Program() {
             <br></br>
             <h1 className="text-center">Program page</h1>
             <div className="table-responsive">
-                <table className="table table-hover">
+                <table className="table table-hover table-bordered table-info">
                   <thead>
-                    <tr>
+                    <tr className='table-primary'>
                       <th scope="col">Program Code</th>
                       <th scope="col">Program Name</th>
                       <th scope="col">Period</th>
@@ -94,8 +94,10 @@ export default function Program() {
                                   <td>{program.totalOfNationalDefense}</td>
                                   <td>{program.totalOfAdditional}</td>
                                   <td>{program.totalOfGraduationInternship}</td>
-                                  <Link className='btn btn-sm' to={`/programs/edit/${program.programCode}-${program.period}`}>Edit</Link>
-                                  <button onClick={e =>deleteProgram(program.programCode, program.period, e)} className='btn btn-sm'>Delete</button>
+                                  <td>
+                                    <Link className='btn btn-sm btn-outline-info' to={`/programs/edit/${program.programCode}-${program.period}`}>Edit</Link>
+                                    <button onClick={e =>deleteProgram(program.programCode, program.period, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
+                                  </td>
                                 </tr>
                                 </tbody>
                     })

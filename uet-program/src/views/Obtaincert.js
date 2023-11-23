@@ -3,16 +3,18 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { request, setAuthHeader } from '../helpers/axios_helper';
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 const URL = 'http://localhost:8080/myprogram/obtaincerts'
 
 export default function Obtaincert() {
-  const [count, setCount] = useState(0);
   const [certList, setCertList] = useState([]);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     request(
       "GET",
-      'obtaincerts',
+      `obtaincerts?page=${page}`,
       {}).then(
       (response) => {
         console.log(response.data)
@@ -26,7 +28,7 @@ export default function Obtaincert() {
           }
       }
   );
-  },[count])
+  },[page])
     
     const deleteCert = (id, id2, e) => {
       e.preventDefault();
@@ -57,13 +59,14 @@ export default function Obtaincert() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Certificate page</h1>
-            <table className="table table-hover">
+            <table className="table table-hover table-bordered table-info">
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th scope="col">StudentID</th>
                   <th scope="col">Certificate Type</th>
                   <th scope="col">Level</th>
                   <th scope="col">Submission Date</th>
+                  <th scope="col">Change</th>
                 </tr>
               </thead>
               {
@@ -74,14 +77,27 @@ export default function Obtaincert() {
                               <td>{cert.certificateType}</td>
                               <td>{cert.levelLanguage}</td>
                               <td>{cert.submissionDate}</td>
-                              <Link className='btn btn-sm' to={`/obtaincerts/edit/${cert.studentId}&${cert.certificateType}`}>Edit</Link>
-                              <button onClick={e =>deleteCert(cert.studentId, cert.certificateType, e)} className='btn btn-sm'>Delete</button>
+                              <td>
+                                <Link className='btn btn-sm btn-outline-info' to={`/obtaincerts/edit/${cert.studentId}&${cert.certificateType}`}>Edit</Link>
+                                <button onClick={e =>deleteCert(cert.studentId, cert.certificateType, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
+                              </td>
                             </tr>
                             </tbody>
                 })
                 }
             </table>
             <Link to="/obtaincerts/new"><button className="btn btn-primary">Add Certificate</button></Link><br></br>
+            <PaginationControl
+              page={page}
+              between={4}
+              total={250}
+              limit={20}
+              changePage={(page) => {
+                setPage(page); 
+                console.log(page)
+              }}
+              ellipsis={1}
+            />          
         </div>
     )
 }

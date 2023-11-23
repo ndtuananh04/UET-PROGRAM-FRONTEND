@@ -3,17 +3,16 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { request, setAuthHeader } from '../helpers/axios_helper';
-
-const URL = 'students'
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 export default function Student() {
-  const [count, setCount] = useState(0);
   const [studentList, setStudentList] = useState([]);
+  const [page, setPage] = useState(1);
 
     useEffect(() => {
       request(
         "GET",
-          URL,
+          `students?page=${page}`,
         {}).then(
         (response) => {
           console.log(response.data)
@@ -27,7 +26,7 @@ export default function Student() {
             }
         }
     );
-    },[count])
+    },[page])
     const deleteStudent = (id, e) => {
       e.preventDefault();
       // axios.delete(`http://localhost:8080/myprogram/students/delete/${id}`)
@@ -58,9 +57,10 @@ export default function Student() {
             <br></br>
             <h1 className="text-center">Student page</h1>
             <Link to="/searchid"><button className="btn btn-primary">Search Student</button></Link>
-            <table className="table table-hover">
+            <br></br><br></br>
+            <table className="table table-hover table-bordered table-info" >
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th scope="col">StudentID</th>
                   <th scope="col">Name</th>
                   <th scope="col">Date of Birth</th>
@@ -68,6 +68,7 @@ export default function Student() {
                   <th scope="col">Address</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Class</th>
+                  <th scope="col">Change</th>
                 </tr>
               </thead>
               {
@@ -82,8 +83,8 @@ export default function Student() {
                               <td>{student.phone}</td>
                               <td>{student.classFullName}</td>
                               <td>
-                                <Link className='btn btn-sm' to={`/students/edit/${student.studentId}`}>Edit</Link>
-                                <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm'>Delete</button>
+                                <Link className='btn btn-sm btn-outline-info' to={`/students/edit/${student.studentId}`}>Edit</Link>
+                                <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>
                             </tr>
                             </tbody>
@@ -91,6 +92,17 @@ export default function Student() {
               }
             </table>
             <Link to="/students/new"><button className="btn btn-primary">Add Student</button></Link><br></br>
+            <PaginationControl
+              page={page}
+              between={4}
+              total={250}
+              limit={20}
+              changePage={(page) => {
+                setPage(page); 
+                console.log(page)
+              }}
+              ellipsis={1}
+            />          
         </div>
     )
 }

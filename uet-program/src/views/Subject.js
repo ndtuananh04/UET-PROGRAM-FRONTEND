@@ -3,15 +3,16 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { request, setAuthHeader } from '../helpers/axios_helper';
-
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 export default function Subject() {
     const [subjectList, setSubjectList] = useState([]);
-    const [count, setCount] = useState(0);
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
       request(
         "GET",
-        'subjects',
+        `subjects?page=${page}`,
         {}).then(
         (response) => {
           console.log(response.data)
@@ -25,7 +26,7 @@ export default function Subject() {
             }
         }
       );
-    },[count])
+    },[page])
     const deleteSubject = (id, e) => {
       e.preventDefault();
       request(
@@ -49,13 +50,13 @@ export default function Subject() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Subject page</h1>
-            <table className="table table-hover">
+            <table className="table table-hover table-bordered table-info">
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th scope="col">SubjectID</th>
                   <th scope="col">SubjectName</th>
                   <th scope="col">Credit</th>
-                  <th scope="col">Prerequisite Subject</th>
+                  <th scope="col" className="text-wrap">Prerequisite Subject</th>
                   <th scope="col">Change</th>
                 </tr>
               </thead >
@@ -66,10 +67,10 @@ export default function Subject() {
                         <th scope="row">{subject.subjectid}</th>
                         <td>{subject.subjectName}</td>
                         <td>{subject.credit}</td>
-                        <td>{subject.prerequisiteSubjectId.join(',')}</td>
+                        <td className="text-wrap">{subject.prerequisiteSubjectId.join(', ')}</td>
                         <td>
-                        <Link className='btn btn-sm' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
-                        <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-sm'>Delete</button>
+                        <Link className='btn btn-sm btn-outline-info' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
+                        <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-outline-danger btn-sm'>Delete</button>
                         </td>
                       </tr>
                     </tbody>
@@ -77,6 +78,17 @@ export default function Subject() {
               }
             </table>
             <Link to="/subjects/new"><button className="btn btn-primary">Add Subject</button></Link>
+            <PaginationControl
+              page={page}
+              between={4}
+              total={250}
+              limit={20}
+              changePage={(page) => {
+                setPage(page); 
+                console.log(page)
+              }}
+              ellipsis={1}
+            />          
         </div>
     )
 }

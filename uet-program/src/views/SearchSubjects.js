@@ -108,7 +108,7 @@ export default function SearchSubjects() {
   return (
     <div className="container pt-5">
     <br></br>
-    <Form inline onSubmit={event =>handleSubmit(event)}>
+    <form onSubmit={handleSubmit}>
         <div className="form-group">
             <label>Status:</label>
             <Select 
@@ -132,9 +132,9 @@ export default function SearchSubjects() {
             </Select><br></br>
         </div>
       <br></br>
-      <Button type="submit" variant="outline-success">Search</Button>
+      <button type="submit" className='btn btn-primary'>Search</button>
       <br></br>
-    </Form>
+    </form>
       <table className="table table-hover">
         </table>
         <br></br>
@@ -142,11 +142,11 @@ export default function SearchSubjects() {
             {Object.keys(groupedSubjects).map(roleType => (
             <div key={roleType}>
             <h2>{roleType}</h2>
-            <table className="table table-hover">
+            <table className="table table-hover table-info">
               <thead>
-                <tr>
-                  <th scope="col">SubjectName</th>
-                  <th scope="col">Credit</th>
+                <tr className='table-primary'>
+                  <th scope="col" style={{ width: '600px' }}>SubjectName</th>
+                  <th scope="col" style={{ width: '150px' }}>Credit</th>
                   { 
                     subjectList[0].mark != null
                     ? <th scope="col">Mark</th> : <th scope="col">Prerequisite Subject</th>
@@ -160,11 +160,9 @@ export default function SearchSubjects() {
                   <td>{subject.credit}</td>
                   <td>
                     {
-                      subject.mark!=null ? subject.mark : subject.roleType
+                      subject.mark!=null ? subject.mark : subject.prerequisiteSubjectId.join(", ")
                     }
                   
-                  </td>
-                  <td>
                   </td>
                 </tr>
               ))}
