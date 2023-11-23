@@ -62,23 +62,16 @@ function App() {
             <Link to="/faculties" className="nav-link">Falcuties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
-            <Link to="/statistic/graduation" className="nav-link">Statistic</Link>
-            <Link to="/sendmail" className="nav-link">Notifications</Link>
             <NavDropdown title="Relations" id="basic-nav-dropdown">
               <Link to="/attendances" className="nav-link text-center">Attendances</Link>
               <Link to="/marksubjects" className="nav-link text-center">Marks</Link>
               <Link to="/facultyprograms/new" className="nav-link text-center">Faculty-Program</Link>
               <Link to="/programsubjects/new" className="nav-link text-center">Program-Subject</Link>
               <Link to="/obtaincerts" className="nav-link text-center">Certificate Obtained</Link>
-              {/* <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item> */}
+            </NavDropdown>
+            <NavDropdown title="More" id="basic-nav-dropdown">
+              <Link to="/statistic/graduation" className="nav-link">Statistic</Link>
+              <Link to="/sendmail" className="nav-link">Notifications</Link>
             </NavDropdown>
             
           </Nav>

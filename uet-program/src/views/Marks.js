@@ -10,6 +10,7 @@ const URL = 'http://localhost:8080/myprogram/marksubjects'
 export default function Mark() {
   const [markList, setMarkList] = useState([]);
   const [page, setPage] = useState(1);
+  const [exportInfo, setExportInfo] = useState([]);
   
   useEffect(() => {
     request(
@@ -18,6 +19,12 @@ export default function Mark() {
       {}).then(
       (response) => {
         console.log(response.data)
+        const extractedData = response.data.map(item => ({
+          StudentId: item.studentId,
+          SubjectId: item.subjectId,
+          Mark: item.mark
+        }));
+        setExportInfo(extractedData)
         setMarkList(response.data)
       }).catch(
       (error) => {
@@ -55,9 +62,8 @@ export default function Mark() {
       }
 
       const handleExport = () => {
-        console.log(markList)
         var wb = XLSX.utils.book_new(),
-        ws = XLSX.utils.json_to_sheet(markList);
+        ws = XLSX.utils.json_to_sheet(exportInfo);
 
         XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
 
