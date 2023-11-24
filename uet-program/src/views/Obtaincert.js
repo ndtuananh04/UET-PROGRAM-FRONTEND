@@ -78,7 +78,7 @@ export default function Obtaincert() {
                               <td>{cert.levelLanguage}</td>
                               <td>{cert.submissionDate}</td>
                               <td>
-                                <Link className='btn btn-sm btn-outline-info' to={`/obtaincerts/edit/${cert.studentId}&${cert.certificateType}`}>Edit</Link>
+                                <Link className='btn btn-sm btn-outline-info' to={`/obtaincerts/edit/${cert.studentId}/${cert.certificateType}`}>Edit</Link>
                                 <button onClick={e =>deleteCert(cert.studentId, cert.certificateType, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>
                             </tr>
@@ -90,7 +90,7 @@ export default function Obtaincert() {
             <PaginationControl
               page={page}
               between={4}
-              total={250}
+              total={674}
               limit={20}
               changePage={(page) => {
                 setPage(page); 

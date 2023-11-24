@@ -14,6 +14,7 @@ export default function EditCert() {
     })
 
     const {id} = useParams();
+    const {id2} = useParams();
     const [certTypeList, setCertTypeList] = useState([])
     const [levelList, setLevelList] = useState([])
     
@@ -29,7 +30,7 @@ export default function EditCert() {
         //     .catch(error => console.log(error));
         request(
         "GET",
-        `obtaincerts/edit/${id}`,
+        `obtaincerts/edit/${id}/${id2}`,
         {}).then(
         (response) => {
           console.log(response.data)

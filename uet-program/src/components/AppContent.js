@@ -8,6 +8,14 @@ import AuthContent from './AuthContent';
 import LoginForm from './LoginForm';
 import WelcomeContent from './WelcomeContent'
 import Home from '../views/Home';
+
+// export const getAccountName = () => {
+//     return window.localStorage.getItem('account_name');
+// };
+
+// export const setAccountName = (token) => {
+//     window.localStorage.setItem('account_name', token);
+// };
 export default class AppContent extends React.Component {
     
     constructor(props) {
@@ -24,11 +32,12 @@ export default class AppContent extends React.Component {
     logout = () => {
         this.setState({componentToShow: "welcome"})
         setAuthHeader(null);
+        window.location.reload();
     };
 
     onLogin = (e, username, password) => {
         e.preventDefault();
-        
+
         request(
             "POST",
             "/login",
@@ -38,7 +47,11 @@ export default class AppContent extends React.Component {
             }).then(
             (response) => {
                 setAuthHeader(response.data.token);
+                console.log(response.data)
+                const Name = response.data.lastName + " " + response.data.firstName ;
+                window.localStorage.setItem('account_name', Name);
                 this.props.navigate('/'); 
+                window.location.reload();
             }).catch(
             (error) => {
                 setAuthHeader(null);

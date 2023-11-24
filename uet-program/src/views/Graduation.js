@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { request, setAuthHeader } from '../helpers/axios_helper';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function Graduation() {
     const [data, setData] = useState({});
@@ -115,7 +116,7 @@ export default function Graduation() {
                 <strong>Language Certificates:</strong> {data.enoughCert ? 'Completed' : 'None'}
             </Card.Text>
             <Card.Text>
-              <strong>Graduation Status:</strong> {data.graduation ? 'Yes' : 'Not yet'}
+              <strong>Graduation Status:</strong> {data.graduation ? <i class="bi-check-lg"></i> : <i class="bi-x-lg"></i>}
             </Card.Text>
           </Card.Body>
           </Card>

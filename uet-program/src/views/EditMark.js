@@ -59,7 +59,7 @@ export default function EditMark() {
         //         .catch(err => console.log(err));
         request(
         "PUT",
-        'smarksubjects/edit/save',
+        'marksubjects/edit/save',
         post).then(
         (response) => {
           console.log(response.data)

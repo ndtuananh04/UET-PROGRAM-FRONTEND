@@ -2,9 +2,12 @@ import './App.css';
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { CDBSidebarFooter, CDBBox, CDBFooterLink, CDBBtn, CDBIcon, CDBContainer } from 'cdbreact';
+import { getAccountName } from './components/AppContent';
+import { getAuthToken, setAuthHeader } from './helpers/axios_helper';
+import Buttons from './components/Buttons';
 import Nav from '../node_modules/react-bootstrap/Nav';
 import Navbar from '../node_modules/react-bootstrap/Navbar';
 import NavDropdown from '../node_modules/react-bootstrap/NavDropdown';
@@ -48,14 +51,31 @@ import GraduationRate from './views/GraduationRate';
 
 
 function App() {
+  let account = window.localStorage.getItem('account_name');
+  const navigate = useNavigate();
+  const logout = () => {
+    setAuthHeader(null);
+    navigate('/');
+    window.location.reload();
+};
+
   return (
     <div>
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
       <Container>
+      <div className="logo-and-title">
         <Image src="UET.png" className="App-logo" alt="logo" rounded width="35" />
         <Link to="/" className="navbar-brand mb-0 h1">UET PROGRAM</Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+    </div>
+        {/* {
+          (getAuthToken() !== null && getAuthToken() !== "null") 
+        
+        } */}
+        
+        { getAuthToken() !== null && getAuthToken() !== "null" ?
+          <>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to="/students" className="nav-link">Students</Link>
             <Link to="/subjects" className="nav-link">Subjects</Link>
@@ -70,17 +90,24 @@ function App() {
               <Link to="/obtaincerts" className="nav-link text-center">Certificate Obtained</Link>
             </NavDropdown>
             <NavDropdown title="More" id="basic-nav-dropdown">
-              <Link to="/statistic/graduation" className="nav-link">Statistic</Link>
-              <Link to="/sendmail" className="nav-link">Notifications</Link>
+              <Link to="/statistic/graduation" className="nav-link text-center">Statistic</Link>
+              <Link to="/sendmail" className="nav-link text-center">Notifications</Link>
             </NavDropdown>
-            
           </Nav>
-        </Navbar.Collapse>
-        <Navbar.Collapse className="justify-content-end">
-        <Nav className="d-flex">
-          <Link to="/login" className="nav-link">Sign in/Sign up</Link>
-          </Nav>
-        </Navbar.Collapse>
+          </Navbar.Collapse>
+          <NavDropdown title={account} id="basic-nav-dropdown" className="btn btn-secondary">
+            <Button className="btn btn-sm btn-dark" style={{ margin: '10px' }} onClick={logout}>Log out</Button>
+          </NavDropdown>
+
+          </>
+          : 
+          <Navbar.Collapse className="justify-content-end">
+            <Nav className="d-flex ">
+              <Link to="/login" className="nav-link btn btn-primary">Sign in/Sign up</Link>
+            </Nav>
+          </Navbar.Collapse>
+        }
+        
       </Container>
     </Navbar>
     <Container fluid style={{ backgroundColor: '#6ea0cc' }} className="d-flex flex-column min-vh-100">
@@ -110,7 +137,7 @@ function App() {
         <Route path="/marksubjects/edit/:id" element={<EditMark />} />
         <Route path="/obtaincerts" element={<Obtaincert/>} />
         <Route path="/obtaincerts/new" element={<AddCert/>} />
-        <Route path="/obtaincerts/edit/:id" element={<EditCert/>} />
+        <Route path="/obtaincerts/edit/:id/:id2" element={<EditCert/>} />
         <Route path="/searchid" element={<Search />} />
         <Route path="/searchSubject/:id/:id2" element={<SearchSubjects/>} />
         <Route path="/graduation/:id/:id2" element={<Graduation/>} />
@@ -137,18 +164,24 @@ function App() {
             />
             <span className="ms-4 h5 mb-0 font-weight-bold">UET Program</span>
           </a>
-          <small className="ms-2">&copy; Group 7, 2023. Everything to help you graduate on time</small>
+          <small className="ms-2">&copy; Group 7, 2023. Committed to Nurturing Academic Success and Lifelong Learning</small>
         </CDBBox>
         <CDBBox display="flex">
+        <a href="https://www.facebook.com/UET.VNUH" target="_blank" rel="noopener noreferrer">
           <CDBBtn flat color="dark" className="p-2">
             <CDBIcon fab icon="facebook-f" />
           </CDBBtn>
+        </a>
+        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
           <CDBBtn flat color="dark" className="mx-3 p-2">
             <CDBIcon fab icon="twitter" />
           </CDBBtn>
+        </a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
           <CDBBtn flat color="dark" className="p-2">
             <CDBIcon fab icon="instagram" />
           </CDBBtn>
+        </a>
         </CDBBox>
       </CDBBox>
     </CDBSidebarFooter>

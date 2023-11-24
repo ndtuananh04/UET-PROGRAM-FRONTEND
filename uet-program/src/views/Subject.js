@@ -81,7 +81,7 @@ export default function Subject() {
             <PaginationControl
               page={page}
               between={4}
-              total={250}
+              total={712}
               limit={20}
               changePage={(page) => {
                 setPage(page); 

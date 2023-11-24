@@ -133,7 +133,7 @@ export default function EditStudent() {
                     ></Select>
                 </div>
                 <br></br>
-                <button className="btn btn-primary">Update</button>
+                <button className="btn btn-primary">Update</button><br></br>
             </form>
         </div>
     )

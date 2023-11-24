@@ -54,9 +54,9 @@ export default function EditAttendance() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.put('http://localhost:8080/myprogram/attendances/edit/save', post)
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+        // axios.put('http://localhost:8080/myprogram/attendances/edit/save', post)
+        //         .then(response => console.log(response))
+        //         .catch(err => console.log(err));
         request(
         "PUT",
         'attendances/edit/save',

@@ -109,7 +109,7 @@ export default function Mark() {
             <PaginationControl
               page={page}
               between={4}
-              total={250}
+              total={373233}
               limit={20}
               changePage={(page) => {
                 setPage(page); 

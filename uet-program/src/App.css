@@ -4,3 +4,9 @@
 .flex-grow-1 {
     flex-grow: 1;
   }
+.logo-and-title {
+  display: flex;
+  align-items: center; /* This ensures vertical alignment */
+  justify-content: flex-start; /* This aligns items to the start of the container */
+  gap: 10px; /* Optional: adds space between the logo and the title */
+}

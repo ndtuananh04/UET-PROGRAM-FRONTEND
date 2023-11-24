@@ -55,7 +55,13 @@ export default function SendMail() {
                 </div>
                 <div>
                     <label>Content:</label>
-                    <input type="text" className="form-control" onChange={handleInput} name="text"></input><br></br>
+                    <textarea 
+                        className="form-control" 
+                        onChange={handleInput} 
+                        name="text" 
+                        rows="1"
+                        style={{ height: '150px', overflow: 'hidden', resize: 'none' }}
+                    ></textarea><br/>
                 </div>
                 <button className="btn btn-primary">Send</button>
             </form>

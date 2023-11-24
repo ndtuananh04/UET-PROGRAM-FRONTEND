@@ -88,7 +88,7 @@ export default function Attendance() {
             <PaginationControl
               page={page}
               between={4}
-              total={250}
+              total={7226}
               limit={20}
               changePage={(page) => {
                 setPage(page); 

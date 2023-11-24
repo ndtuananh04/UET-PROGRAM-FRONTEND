@@ -95,7 +95,7 @@ export default function Student() {
             <PaginationControl
               page={page}
               between={4}
-              total={250}
+              total={7467}
               limit={20}
               changePage={(page) => {
                 setPage(page); 

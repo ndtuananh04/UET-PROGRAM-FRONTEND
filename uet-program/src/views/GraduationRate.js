@@ -1,12 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { request, setAuthHeader } from '../helpers/axios_helper';
+import Select from 'react-select';
 
 export default function GraduationRate() {
   const [data, setData] = useState([])
   const [input, setInput] = useState('')
-  const [count, setCount] = useState(0)
   const [status, setStatus] = useState('unload')
+  const [listCohort, setListCohort] = useState([])
+
+  useEffect(() => {
+    request(
+    "GET",
+    'classrooms/listCohort',
+    {}).then(
+    (response) => {
+      console.log(response.data)
+      setListCohort(response.data)
+    }).catch(
+    (error) => {
+        if (error.response.status === 401) {
+            // setAuthHeader(null);
+        } else {
+            this.setState({data: error.response.code})
+        }
+    }
+  );
+},[]);
 
   const handleInput = (event) => {
     setInput(event.target.value)
@@ -48,16 +68,25 @@ export default function GraduationRate() {
             <h1 className="text-center">Graduation Rate</h1>
           </div>
         <form onSubmit={handleSubmit}> 
-          <div className='form-group'>
-            <label>Cohort:</label>
-            <input type="text" className="form-control" onChange={handleInput} ></input><br></br>
-          </div>
-        <button type="submit" className='btn btn-primary'>Search</button>
+          <div className="form-group">
+              <label>Cohort:</label>
+              <Select
+                  name="gender"
+                  options={listCohort.map(t=>({value: t, label: t}))}
+                  placeholder='None Selected'
+                  onChange={e => setInput(e.value)}
+                  className='form-control'
+              >
+              </Select><br></br>
+            </div>
+          <button type="submit" className='btn btn-primary'>Search</button>
         </form>
         {
           status === 'loading' ?
-          <div className="row text-center">
-             <h1>Loading...</h1>
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
           : ''
         }
@@ -80,8 +109,8 @@ export default function GraduationRate() {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="grad" stackId="a" fill="#8884d8" />
-      <Bar dataKey="total" stackId="a" fill="#82ca9d" />
+      <Bar dataKey="grad" stackId="a" fill="#275cd9" />
+      <Bar dataKey="total" stackId="a" fill="#2786d9" />
       </BarChart>
       <h4 className='text-center'>Graduation Rate of {input}</h4>
       </div>
