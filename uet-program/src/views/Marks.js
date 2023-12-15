@@ -2,7 +2,8 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import * as XLSX from "xlsx";import { request, setAuthHeader } from '../helpers/axios_helper';
+import * as XLSX from "xlsx";
+import { request, setAuthHeader } from '../helpers/axios_helper';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 const URL = 'http://localhost:8080/myprogram/marksubjects'
@@ -29,7 +30,7 @@ export default function Mark() {
       }).catch(
       (error) => {
           if (error.response.status === 401) {
-              setAuthHeader(null);
+              // setAuthHeader(null);
           } else {
               this.setState({data: error.response.code})
           }
@@ -75,7 +76,7 @@ export default function Mark() {
             <div class="row">
               <div class="col text-right pt-3">
               <button type="button" class="btn btn-primary" onClick={handleExport} style={{ float: 'right' }}>Export</button>
-            </div>
+              </div>
             </div>
             <h1 className="text-center">Mark page</h1>
             

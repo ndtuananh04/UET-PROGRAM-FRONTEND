@@ -52,6 +52,8 @@ import GraduationRate from './views/GraduationRate';
 
 function App() {
   let account = window.localStorage.getItem('account_name');
+  let role = window.localStorage.getItem('role_type');
+
   const navigate = useNavigate();
   const logout = () => {
     setAuthHeader(null);
@@ -73,13 +75,15 @@ function App() {
         } */}
         
         { getAuthToken() !== null && getAuthToken() !== "null" ?
-          <>
+          (
+            role === "ROLE_ADMIN" ? (
+            <>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to="/students" className="nav-link">Students</Link>
             <Link to="/subjects" className="nav-link">Subjects</Link>
-            <Link to="/faculties" className="nav-link">Falcuties</Link>
+            <Link to="/faculties" className="nav-link">Faculties</Link>
             <Link to="/programs" className="nav-link">Programs</Link>
             <Link to="/classrooms" className="nav-link">Classrooms</Link>
             <NavDropdown title="Relations" id="basic-nav-dropdown">
@@ -100,6 +104,23 @@ function App() {
           </NavDropdown>
 
           </>
+            ) : ( 
+          <>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Link to="/searchid" className="nav-link">Search</Link>
+            <Link to="/programs" className="nav-link">Programs</Link>
+          </Nav>
+          </Navbar.Collapse>
+          <NavDropdown title={account} id="basic-nav-dropdown" className="btn btn-secondary">
+            <Button className="btn btn-sm btn-dark" style={{ margin: '10px' }} onClick={logout}>Log out</Button>
+          </NavDropdown>
+
+          </>
+            )
+          )
+
           : 
           <Navbar.Collapse className="justify-content-end">
             <Nav className="d-flex ">

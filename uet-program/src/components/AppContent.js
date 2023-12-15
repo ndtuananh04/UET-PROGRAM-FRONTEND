@@ -50,11 +50,13 @@ export default class AppContent extends React.Component {
                 console.log(response.data)
                 const Name = response.data.lastName + " " + response.data.firstName ;
                 window.localStorage.setItem('account_name', Name);
+                const Role = response.data.role;
+                window.localStorage.setItem('role_type', Role);
                 this.props.navigate('/'); 
                 window.location.reload();
             }).catch(
             (error) => {
-                setAuthHeader(null);
+                // setAuthHeader(null);
                 // this.setState({componentToShow: "welcome"})
                 alert('Username or Password is incorrect')
             }
@@ -77,7 +79,7 @@ export default class AppContent extends React.Component {
                 this.setState({componentToShow: "messages"});
             }).catch(
             (error) => {
-                setAuthHeader(null);
+                // setAuthHeader(null);
                 this.setState({componentToShow: "welcome"})
             }
         );

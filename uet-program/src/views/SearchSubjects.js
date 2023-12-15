@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Form, FormControl, Button } from 'react-bootstrap';
+import { Form, FormControl, Button, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import { useParams } from 'react-router-dom';
 import { request, setAuthHeader } from '../helpers/axios_helper';
-
+import * as XLSX from "xlsx";
 
 export default function SearchSubjects() {
   // const [searchTermId, setSearchTermId] = useState('');
@@ -16,21 +16,12 @@ export default function SearchSubjects() {
   const [subjectList, setSubjectList] = useState([]);
   const {id} = useParams();
   const {id2} = useParams();
-
-//   const handleChange1 = (event) => {
-//     setSearchTermId(event.target.value);
-//   };
-
-//   const handleChange2 = (event) => {
-//     setSearchTermProgram(event.target.value);
-//   };
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+  const [exportInfo, setExportInfo] = useState([]);
 
   useEffect(() => {
-    // axios.get('http://localhost:8080/myprogram/programsubjects/new')
-    //     .then(response => {
-    //     setRoleTypeList(response.data.listRoleType)
-    //     })
-    //     .catch(error => console.log(error));
+
     request(
         "GET",
         'programsubjects/new',
@@ -47,12 +38,7 @@ export default function SearchSubjects() {
             }
         }
       );
-    // axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}`)
-    //     .then(response => {
-    //     console.log(response.data)
-    //     setSubjectList(response.data)
-    //     })
-    //     .catch(error => console.log(error));
+
     request(
         "GET",
         `searchSubject/${id}/${id2}`,
@@ -71,21 +57,45 @@ export default function SearchSubjects() {
       );
   },[])
 
+  const handleShowModal = (content) => {
+    request(
+      "GET",
+      `subjects/edit/${content}`,
+      {}).then(
+      (response) => {
+        setModalContent({...modalContent, subjectName: response.data.subjectName, credit: response.data.credit});
+      }).catch(
+      (error) => {
+          if (error.response.status === 401) {
+              // setAuthHeader(null);
+          } else {
+              this.setState({data: error.response.code})
+          }
+      }
+    );
+    setShowModal(true);
+  };
+  
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // axios.get(`http://localhost:8080/myprogram/searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`)
-    //         .then(response => {
-    //         console.log(response.data)
-    //         setSubjectList(response.data)
-    //         })
-    //         .catch(error => console.log(error));
     request(
         "GET",
         `searchSubject/${id}/${id2}?status=${status}&roleType=${roleType}`,
         {}).then(
         (response) => {
           console.log(response.data)
+          const extractedData = response.data.map(item => ({
+            SubjectName: item.subjectName,
+            Credit: item.credit,
+            RoleType: item.roleType,
+            Mark: item.mark
+          }));
           setSubjectList(response.data)
+          setExportInfo(extractedData)
         }).catch(
         (error) => {
             if (error.response.status === 401) {
@@ -104,6 +114,17 @@ export default function SearchSubjects() {
       }
       groupedSubjects[subject.roleType].push(subject);
     });
+
+    const handleExport = () => {
+      var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(exportInfo);
+      console.log(exportInfo)
+
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+
+      XLSX.writeFile(wb, "Marks.xlsx");
+    }
+
 
   return (
     <div className="container pt-5">
@@ -160,7 +181,12 @@ export default function SearchSubjects() {
                   <td>{subject.credit}</td>
                   <td>
                     {
-                      subject.mark!=null ? subject.mark : subject.prerequisiteSubjectId.join(", ")
+                      subject.mark!=null ? subject.mark : 
+                      subject.prerequisiteSubjectId.map((e, index) => (
+                        <Button key={index} variant="link" onClick={() => handleShowModal(`${e}`)}>
+                          {e}
+                        </Button>
+                      ))
                     }
                   
                   </td>
@@ -170,6 +196,23 @@ export default function SearchSubjects() {
             </table>
             </div>
             ))}
+          <button type="button" class="btn btn-primary" onClick={handleExport} >Export</button><br></br><br></br>
+          <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+          <Modal.Title>Prerequisite Subject Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+            <p>Subject Name: {modalContent.subjectName}</p>
+            <p>Credit: {modalContent.credit}</p>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          </Modal.Footer>
+          </Modal>
     </div>
     
   )

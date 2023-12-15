@@ -22,7 +22,7 @@ export default function Obtaincert() {
       }).catch(
       (error) => {
           if (error.response.status === 401) {
-              setAuthHeader(null);
+              // setAuthHeader(null);
           } else {
               this.setState({data: error.response.code})
           }

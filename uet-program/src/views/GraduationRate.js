@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { request, setAuthHeader } from '../helpers/axios_helper';
 import Select from 'react-select';
+import ApexCharts from 'apexcharts'
 
 export default function GraduationRate() {
   const [data, setData] = useState([])
@@ -109,8 +110,8 @@ export default function GraduationRate() {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="grad" stackId="a" fill="#275cd9" />
-      <Bar dataKey="total" stackId="a" fill="#2786d9" />
+      <Bar dataKey="grad" stackId="a" fill="#f02b6d" />
+      <Bar dataKey="total" stackId="a" fill="#e1e65a" />
       </BarChart>
       <h4 className='text-center'>Graduation Rate of {input}</h4>
       </div>

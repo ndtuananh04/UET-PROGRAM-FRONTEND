@@ -20,7 +20,7 @@ export default function Student() {
         }).catch(
         (error) => {
             if (error.response.status === 401) {
-                setAuthHeader(null);
+                // setAuthHeader(null);
             } else {
                 this.setState({data: error.response.code})
             }
@@ -95,7 +95,7 @@ export default function Student() {
             <PaginationControl
               page={page}
               between={4}
-              total={7467}
+              total={6223}
               limit={20}
               changePage={(page) => {
                 setPage(page); 
