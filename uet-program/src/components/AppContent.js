@@ -50,8 +50,8 @@ export default class AppContent extends React.Component {
                 console.log(response.data)
                 const Name = response.data.lastName + " " + response.data.firstName ;
                 window.localStorage.setItem('account_name', Name);
-                this.props.navigate('/'); 
-                window.location.reload();
+                this.props.navigate('/manager'); 
+                // window.location.reload();
             }).catch(
             (error) => {
                 setAuthHeader(null);

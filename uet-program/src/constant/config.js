@@ -2,9 +2,11 @@
 const apiKey = process.env.REACT_APP_BACKEND_API_KEY;
 
 export const baseURL = () => {
-    const apiUrl = process.env.REACT_APP_BACKEND_WS_HOST;
-    const apiPort = process.env.REACT_APP_BACKEND_WS_PORT;
-    console.log(apiUrl)
-    console.log(apiPort)
-    return `http://${apiUrl}:${apiPort}/myprogram`;
+    const apiUrl = "backend.stunet.site";
+    const apiPort = "80";
+    // console.log(apiUrl)
+    // console.log(apiPort)
+    // const apiUrl = "localhost";
+    // const apiPort = "8080";
+    return `http://${apiUrl}:${apiPort}/api/v1`;
 }

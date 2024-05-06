@@ -10,3 +10,25 @@
   justify-content: flex-start; /* This aligns items to the start of the container */
   gap: 10px; /* Optional: adds space between the logo and the title */
 }
+
+.bg {
+  background-image: linear-gradient(0, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.1)),
+  url(../public/UETbg.jpg);
+  background-attachment: fixed;
+  /* width: 200px;
+  height: 200px; */
+  background-size: cover;
+  z-index: -1;
+}
+
+.shadowing {
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.3);
+}
+
+.bgnv {
+  background-image: linear-gradient(0, rgba(92, 93, 133, 0.7), rgba(37, 59, 128, 0.1)),
+  url(../public/navbg.png);
+  /* background-attachment: fixed; */
+  background-size: cover;
+  z-index: -1;
+}

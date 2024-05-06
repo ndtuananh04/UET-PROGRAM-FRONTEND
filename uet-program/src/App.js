@@ -62,7 +62,7 @@ function App() {
 
   return (
     <div>
-    <Navbar fixed="top" expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
+    <Navbar fixed="top" expand="lg" className="bg-body-tertiary bgnv" bg="dark" data-bs-theme="dark">
       <Container>
       <div className="logo-and-title">
         <Image src="UET.png" className="App-logo" alt="logo" rounded width="35" />
@@ -104,14 +104,14 @@ function App() {
           : 
           <Navbar.Collapse className="justify-content-end">
             <Nav className="d-flex ">
-              <Link to="/login" className="nav-link btn btn-primary">Sign in/Sign up</Link>
+              <Link to="/login" className="nav-link btn btn-primary">Sign in</Link>
             </Nav>
           </Navbar.Collapse>
         }
         
       </Container>
     </Navbar>
-    <Container fluid style={{ backgroundColor: '#6ea0cc' }} className="d-flex flex-column min-vh-100">
+    <Container fluid style={{ backgroundColor: '#6ea0cc' }} className="d-flex flex-column min-vh-100 bg">
     <Row className="flex-grow-1" style={{ marginLeft: '80px', marginRight: '80px' }}>
     <Routes>
         <Route path="/" element={<HomePage />} />
@@ -148,7 +148,7 @@ function App() {
         <Route path="/statistic/graduation" element={<GraduationRate />} />
       </Routes>
       </Row>
-      <CDBSidebarFooter style={{ backgroundColor: '#5278a3' }} className="shadow">
+      <CDBSidebarFooter style={{ backgroundColor: '#253b80' }} className="shadow">
       <CDBBox
         display="flex"
         justifyContent="between"
@@ -190,6 +190,145 @@ function App() {
     </div>
     
   );
+
+//   let account = window.localStorage.getItem('account_name');
+//   const navigate = useNavigate();
+//   const logout = () => {
+//     setAuthHeader(null);
+//     navigate('/manager');
+//     window.location.reload();
+// };
+
+//   return (
+//     <div>
+//     <Navbar fixed="top" expand="lg" className="bg-body-tertiary bgnv" bg="dark" data-bs-theme="dark">
+//       <Container>
+//       <div className="logo-and-title">
+//         <Image src="UET.png" className="App-logo" alt="logo" rounded width="35" />
+//         <Link to="/manager" className="navbar-brand mb-0 h1">UET PROGRAM</Link>
+//     </div>
+//         {/* {
+//           (getAuthToken() !== null && getAuthToken() !== "null") 
+        
+//         } */}
+        
+//         { getAuthToken() !== null && getAuthToken() !== "null" ?
+//           <>
+//           <Navbar.Toggle aria-controls="basic-navbar-nav" />
+//           <Navbar.Collapse id="basic-navbar-nav">
+//           <Nav className="me-auto">
+//             <Link to="/manager/students" className="nav-link">Students</Link>
+//             <Link to="/manager/subjects" className="nav-link">Subjects</Link>
+//             <Link to="/manager/faculties" className="nav-link">Falcuties</Link>
+//             <Link to="/manager/programs" className="nav-link">Programs</Link>
+//             <Link to="/manager/classrooms" className="nav-link">Classrooms</Link>
+//             <NavDropdown title="Relations" id="basic-nav-dropdown">
+//               <Link to="/manager/attendances" className="nav-link text-center">Attendances</Link>
+//               <Link to="/manager/marksubjects" className="nav-link text-center">Marks</Link>
+//               <Link to="/manager/facultyprograms/new" className="nav-link text-center">Faculty-Program</Link>
+//               <Link to="/manager/programsubjects/new" className="nav-link text-center">Program-Subject</Link>
+//               <Link to="/manager/obtaincerts" className="nav-link text-center">Certificate Obtained</Link>
+//             </NavDropdown>
+//             <NavDropdown title="More" id="basic-nav-dropdown">
+//               <Link to="/manager/statistic/graduation" className="nav-link text-center">Statistic</Link>
+//               <Link to="/manager/sendmail" className="nav-link text-center">Notifications</Link>
+//             </NavDropdown>
+//           </Nav>
+//           </Navbar.Collapse>
+//           <NavDropdown title={account} id="basic-nav-dropdown" className="btn btn-secondary">
+//             <Button className="btn btn-sm btn-dark" style={{ margin: '10px' }} onClick={logout}>Log out</Button>
+//           </NavDropdown>
+
+//           </>
+//           : 
+//           <Navbar.Collapse className="justify-content-end">
+//             <Nav className="d-flex ">
+//               <Link to="/login" className="nav-link btn btn-primary">Sign in/Sign up</Link>
+//             </Nav>
+//           </Navbar.Collapse>
+//         }
+        
+//       </Container>
+//     </Navbar>
+//     <Container fluid style={{ backgroundColor: '#6ea0cc' }} className="d-flex flex-column min-vh-100 bg">
+//     <Row className="flex-grow-1" style={{ marginLeft: '80px', marginRight: '80px' }}>
+//     <Routes>
+//         <Route path="/manager/" element={<HomePage />} />
+//         <Route path="/manager/students" element={<StudentPage />} />
+//         <Route path="/manager/students/new" element={<AddStudent />} />
+//         <Route path="/manager/subjects" element={<SubjectPage />} />
+//         <Route path="/manager/subjects/new" element={<AddSubject />} />
+//         <Route path="/manager/faculties" element={<Faculty />} />
+//         <Route path="/manager/faculties/new" element={<AddFaculty />} />
+//         <Route path="/manager/programs" element={<Program />} />
+//         <Route path="/manager/programs/new" element={<AddProgram/>} />
+//         <Route path="/manager/classrooms" element={<Classroom/>} />
+//         <Route path="/manager/classrooms/new" element={<AddClassroom/>} />
+//         <Route path="/manager/attendances" element={<Attendance/>} />
+//         <Route path="/manager/attendances/new" element={<AddAttendance/>} />
+//         <Route path="/manager/marksubjects" element={<Mark/>} />
+//         <Route path="/manager/marksubjects/new" element={<AddMark/>} />
+//         <Route path="/manager/facultyprograms/new" element={<AddFacultyProgram/>} />
+//         <Route path="/manager/programsubjects/new" element={<AddProgramSubject/>} />
+//         <Route path="/manager/subjects/edit/:id" element={<EditSubject />} />
+//         <Route path="/manager/students/edit/:id" element={<EditStudent />} />
+//         <Route path="/manager/programs/edit/:id" element={<EditProgram />} />
+//         <Route path="/manager/attendances/edit/:id" element={<EditAttendance />} />
+//         <Route path="/manager/marksubjects/edit/:id" element={<EditMark />} />
+//         <Route path="/manager/obtaincerts" element={<Obtaincert/>} />
+//         <Route path="/manager/obtaincerts/new" element={<AddCert/>} />
+//         <Route path="/manager/obtaincerts/edit/:id/:id2" element={<EditCert/>} />
+//         <Route path="/manager/searchid" element={<Search />} />
+//         <Route path="/manager/searchSubject/:id/:id2" element={<SearchSubjects/>} />
+//         <Route path="/manager/graduation/:id/:id2" element={<Graduation/>} />
+//         <Route path="/manager/sendmail" element={<SendMail/>} />
+//         <Route path="/manager/login" element={<AppContentWrapper />} />
+//         <Route path="/manager/register" element={<AppContentWrapper />} />
+//         <Route path="/manager/statistic/graduation" element={<GraduationRate />} />
+//       </Routes>
+//       </Row>
+//       <CDBSidebarFooter style={{ backgroundColor: '#253b80' }} className="shadow">
+//       <CDBBox
+//         display="flex"
+//         justifyContent="between"
+//         alignItems="center"
+//         className="mx-auto py-4 flex-wrap"
+//         style={{ width: '80%' }}
+//       >
+//         <CDBBox display="flex" alignItems="center">
+//           <a href="/" className="d-flex align-items-center p-0 text-dark">
+//             <img
+//               alt="logo"
+//               src="db.png"
+//               width="40px"
+//             />
+//             <span className="ms-4 h5 mb-0 font-weight-bold">UET Program</span>
+//           </a>
+//           <small className="ms-2">&copy; Group 7, 2023. Committed to Nurturing Academic Success and Lifelong Learning</small>
+//         </CDBBox>
+//         <CDBBox display="flex">
+//         <a href="https://www.facebook.com/UET.VNUH" target="_blank" rel="noopener noreferrer">
+//           <CDBBtn flat color="dark" className="p-2">
+//             <CDBIcon fab icon="facebook-f" />
+//           </CDBBtn>
+//         </a>
+//         <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+//           <CDBBtn flat color="dark" className="mx-3 p-2">
+//             <CDBIcon fab icon="twitter" />
+//           </CDBBtn>
+//         </a>
+//         <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+//           <CDBBtn flat color="dark" className="p-2">
+//             <CDBIcon fab icon="instagram" />
+//           </CDBBtn>
+//         </a>
+//         </CDBBox>
+//       </CDBBox>
+//     </CDBSidebarFooter>
+//     </Container>
+//     </div>
+    
+//   );
 }
 
 export default App;

@@ -5,8 +5,8 @@ export default function Home() {
             <br></br>
             <h1 class= "text-center" >Home Page</h1>
             <br></br>
-            <div className="row text-center">
-                <img src="uet2.jpg" class="center-block" alt="logo" height="650" width="1100" />
+            <div className=" text-center">
+                <img src="uet2.jpg" className="center-block shadowing wid" alt="logo" height="650" width="1200" />
             </div>
             <br></br>
         </div>
