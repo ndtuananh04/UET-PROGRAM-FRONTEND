@@ -32,19 +32,19 @@ export default function Classroom() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Classroom page</h1>
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">Cohort</th>
-                  <th scope="col">Class Name</th>
+                <tr className='table-primary trr'>
+                  <th className='thr'>Cohort</th>
+                  <th className='thr'>Class Name</th>
                 </tr>
               </thead>
               {
                 classroomList.length >= 1 ? classroomList.map((classroom, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{classroom.cohort}</th>
-                              <td>{classroom.nameClass}</td>
+                              <td className='tdr'>{classroom.cohort}</td>
+                              <td className='tdr'>{classroom.nameClass}</td>
                             </tr>
                             </tbody>
                 })

@@ -81,23 +81,23 @@ export default function Mark() {
             </div>
             <h1 className="text-center">Mark page</h1>
             
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">Student ID</th>
-                  <th scope="col">Subject ID</th>
-                  <th scope="col">Mark</th>
-                  <th scope="col">Change</th>
+                <tr className='table-primary trr'>
+                  <th className='thr'>Student ID</th>
+                  <th className='thr'>Subject ID</th>
+                  <th className='thr'>Mark</th>
+                  <th className='thr'>Change</th>
                 </tr>
               </thead>
               {
                 markList.length >= 1 ? markList.map((mark, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{mark.studentId}</th>
-                              <td>{mark.subjectId}</td>
-                              <td>{mark.mark}</td>
-                              <td>
+                              <td className='tdr'>{mark.studentId}</td>
+                              <td className='tdr'>{mark.subjectId}</td>
+                              <td className='tdr'>{mark.mark}</td>
+                              <td className='tdr'>
                                 <Link className='btn btn-sm btn-outline-info' to={`/marksubjects/edit/${mark.studentId}&${mark.subjectId}`}>Edit</Link>
                                 <button onClick={e =>deleteMark(mark.studentId, mark.subjectId, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>

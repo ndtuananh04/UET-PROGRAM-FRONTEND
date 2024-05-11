@@ -56,25 +56,25 @@ export default function Attendance() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Attendance page</h1>
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">Student ID</th>
-                  <th scope="col">Program</th>
-                  <th scope="col">Start Date</th>
-                  <th scope="col">End Date </th>
-                  <th scope="col">Change</th>
+                <tr className='table-primary trr'>
+                  <th className='thr'>Student ID</th>
+                  <th className='thr'>Program</th>
+                  <th className='thr'>Start Date</th>
+                  <th className='thr'>End Date </th>
+                  <th className='thr'>Change</th>
                 </tr>
               </thead>
               {
                 attendanceList.length >= 1 ? attendanceList.map((attendance, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{attendance.studentId}</th>
-                              <td>{attendance.programFullCode}</td>
-                              <td>{attendance.startDate}</td>
-                              <td>{attendance.endDate}</td>
-                              <td>
+                              <td className='tdr'>{attendance.studentId}</td>
+                              <td className='tdr'>{attendance.programFullCode}</td>
+                              <td className='tdr'>{attendance.startDate}</td>
+                              <td className='tdr'>{attendance.endDate}</td>
+                              <td className='tdr'>
                                 <Link className='btn btn-sm btn-outline-info' to={`/attendances/edit/${attendance.studentId}&${attendance.programFullCode}`}>Edit</Link>
                                 <button onClick={e =>deleteAttendance(attendance.studentId,attendance.programFullCode, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>

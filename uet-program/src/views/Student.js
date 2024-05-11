@@ -58,31 +58,31 @@ export default function Student() {
             <h1 className="text-center">Student page</h1>
             <Link to="/searchid"><button className="btn btn-primary">Search Student</button></Link>
             <br></br><br></br>
-            <table className="table table-hover table-bordered table-info" >
+            <table className="tabler " >
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">StudentID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Date of Birth</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Class</th>
-                  <th scope="col">Change</th>
+                <tr className='table-primary nth-child trr'>
+                  <th scope="col" className="thr">StudentID</th>
+                  <th scope="col" className="thr">Name</th>
+                  <th scope="col" className="thr">Date of Birth</th>
+                  <th scope="col" className="thr">Gender</th>
+                  <th scope="col" className="thr">Address</th>
+                  <th scope="col" className="thr">Phone</th>
+                  <th scope="col" className="thr">Class</th>
+                  <th scope="col" className="thr">Change</th>
                 </tr>
               </thead>
               {
                 studentList.map((student, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{student.studentId}</th>
-                              <td>{student.name}</td>
-                              <td>{student.dateOfBirth}</td>
-                              <td>{student.gender}</td>
-                              <td>{student.address}</td>
-                              <td>{student.phone}</td>
-                              <td>{student.classFullName}</td>
-                              <td>
+                              <td className='tdr'>{student.studentId}</td>
+                              <td className='tdr'>{student.name}</td>
+                              <td className='tdr'>{student.dateOfBirth}</td>
+                              <td className='tdr'>{student.gender}</td>
+                              <td className='tdr'>{student.address}</td>
+                              <td className='tdr'>{student.phone}</td>
+                              <td className='tdr'>{student.classFullName}</td>
+                              <td className='tdr'>
                                 <Link className='btn btn-sm btn-outline-info' to={`/students/edit/${student.studentId}`}>Edit</Link>
                                 <button onClick={e =>deleteStudent(student.studentId, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>

@@ -44,7 +44,7 @@ import SendMail from './views/SendMail';
 import Header from './components/Header';
 import AppContentWrapper from './components/AppContentWrapper';
 import GraduationRate from './views/GraduationRate';
-
+import AccountCreate from './views/AccountCreate';
 
 // import SubjectList from './SubjectList';
 // import StudentService from './service/Service'
@@ -57,7 +57,7 @@ function App() {
   const logout = () => {
     setAuthHeader(null);
     navigate('/');
-    window.location.reload();
+    // window.location.reload();
 };
 
   return (
@@ -93,6 +93,7 @@ function App() {
             <NavDropdown title="More" id="basic-nav-dropdown">
               <Link to="/statistic/graduation" className="nav-link text-center">Statistic</Link>
               <Link to="/sendmail" className="nav-link text-center">Notifications</Link>
+              <Link to="/accountcreate" className="nav-link text-center">Create Account</Link>
             </NavDropdown>
           </Nav>
           </Navbar.Collapse>
@@ -146,6 +147,7 @@ function App() {
         <Route path="/login" element={<AppContentWrapper />} />
         <Route path="/register" element={<AppContentWrapper />} />
         <Route path="/statistic/graduation" element={<GraduationRate />} />
+        <Route path="/accountcreate" element={<AccountCreate />} />
       </Routes>
       </Row>
       <CDBSidebarFooter style={{ backgroundColor: '#253b80' }} className="shadow">

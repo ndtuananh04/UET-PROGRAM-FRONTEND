@@ -31,25 +31,25 @@ export default function Faculty() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Faculty page</h1>
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">Faculty Name</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Website</th>
+                <tr className='table-primary trr'>
+                  <th scope="col" className='thr'>Faculty Name</th>
+                  <th scope="col" className='thr'>Address</th>
+                  <th scope="col" className='thr'>Email</th>
+                  <th scope="col" className='thr'>Phone</th>
+                  <th scope="col" className='thr'>Website</th>
                 </tr>
               </thead>
               {
                 facultyList.map((faculty, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{faculty.facultyName}</th>
-                              <td>{faculty.address}</td>
-                              <td>{faculty.email}</td>
-                              <td>{faculty.phone}</td>
-                              <td>{faculty.website}</td>
+                              <td className='tdr'>{faculty.facultyName}</td>
+                              <td className='tdr'>{faculty.address}</td>
+                              <td className='tdr'>{faculty.email}</td>
+                              <td className='tdr'>{faculty.phone}</td>
+                              <td className='tdr'>{faculty.website}</td>
                             </tr>
                             </tbody>
                 })

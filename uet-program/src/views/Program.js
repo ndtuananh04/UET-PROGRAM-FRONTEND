@@ -57,45 +57,45 @@ export default function Program() {
             <br></br>
             <h1 className="text-center">Program page</h1>
             <div className="table-responsive">
-                <table className="table table-hover table-bordered table-info">
+                <table className="tabler">
                   <thead>
-                    <tr className='table-primary'>
-                      <th scope="col">Program Code</th>
-                      <th scope="col">Program Name</th>
-                      <th scope="col">Period</th>
-                      <th scope="col">Duration</th>
-                      <th scope="col">Program Type</th>
-                      <th scope="col">Faculty Name</th>
-                      <th scope="col">TotalCredits</th>
-                      <th scope="col">TotalOfMandatory</th>
-                      <th scope="col">TotalOfOptional</th>
-                      <th scope="col">TotalOfOptionalReinforcement</th>
-                      <th scope="col">TotalOfPhysical</th>
-                      <th scope="col">TotalOfNationalDefense</th>
-                      <th scope="col">TotalOfAdditional</th>
-                      <th scope="col">TotalOfGraduationInternship</th>
-                      <th scope="col">Change</th>
+                    <tr className='table-primary trr'>
+                      <th className='thr'>Program Code</th>
+                      <th className='thr'>Program Name</th>
+                      <th className='thr'>Period</th>
+                      <th className='thr'>Duration</th>
+                      <th className='thr'>Program Type</th>
+                      <th className='thr'>Faculty Name</th>
+                      <th className='thr'>TotalCredits</th>
+                      <th className='thr'>TotalOfMandatory</th>
+                      <th className='thr'>TotalOfOptional</th>
+                      <th className='thr'>TotalOfOptionalReinforcement</th>
+                      <th className='thr'>TotalOfPhysical</th>
+                      <th className='thr'>TotalOfNationalDefense</th>
+                      <th className='thr'>TotalOfAdditional</th>
+                      <th className='thr'>TotalOfGraduationInternship</th>
+                      <th className='thr'>Change</th>
                     </tr>
                   </thead>
                   {
                     programList.length >= 1 ? programList.map((program, idx) => {
                         return <tbody key={idx}>
                                 <tr>
-                                  <th scope="row">{program.programCode}</th>
-                                  <td>{program.programName}</td>
-                                  <td>{program.period}</td>
-                                  <td>{program.duration}</td>
-                                  <td>{program.programType}</td>
-                                  <td>{program.facultyName}</td>
-                                  <td>{program.totalCredits}</td>
-                                  <td>{program.totalOfMandatory}</td>
-                                  <td>{program.totalOfOptional}</td>
-                                  <td>{program.totalOfOptionalReinforcement}</td>
-                                  <td>{program.totalOfPhysical}</td>
-                                  <td>{program.totalOfNationalDefense}</td>
-                                  <td>{program.totalOfAdditional}</td>
-                                  <td>{program.totalOfGraduationInternship}</td>
-                                  <td>
+                                  <td className='tdr'>{program.programCode}</td>
+                                  <td className='tdr'>{program.programName}</td>
+                                  <td className='tdr'>{program.period}</td>
+                                  <td className='tdr'>{program.duration}</td>
+                                  <td className='tdr'>{program.programType}</td>
+                                  <td className='tdr'>{program.facultyName}</td>
+                                  <td className='tdr'>{program.totalCredits}</td>
+                                  <td className='tdr'>{program.totalOfMandatory}</td>
+                                  <td className='tdr'>{program.totalOfOptional}</td>
+                                  <td className='tdr'>{program.totalOfOptionalReinforcement}</td>
+                                  <td className='tdr'>{program.totalOfPhysical}</td>
+                                  <td className='tdr'>{program.totalOfNationalDefense}</td>
+                                  <td className='tdr'>{program.totalOfAdditional}</td>
+                                  <td className='tdr'>{program.totalOfGraduationInternship}</td>
+                                  <td className='tdr'>
                                     <Link className='btn btn-sm btn-outline-info' to={`/programs/edit/${program.programCode}-${program.period}`}>Edit</Link>
                                     <button onClick={e =>deleteProgram(program.programCode, program.period, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                                   </td>

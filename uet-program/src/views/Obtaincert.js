@@ -60,25 +60,25 @@ export default function Obtaincert() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Certificate page</h1>
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler table-hover table-bordered table-info">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">StudentID</th>
-                  <th scope="col">Certificate Type</th>
-                  <th scope="col">Level</th>
-                  <th scope="col">Submission Date</th>
-                  <th scope="col">Change</th>
+                <tr className='table-primary trr'>
+                  <th className='thr'>StudentID</th>
+                  <th className='thr'>Certificate Type</th>
+                  <th className='thr'>Level</th>
+                  <th className='thr'>Submission Date</th>
+                  <th className='thr'>Change</th>
                 </tr>
               </thead>
               {
                 certList.map((cert, idx) => {
                     return <tbody key={idx}>
                             <tr>
-                              <th scope="row">{cert.studentId}</th>
-                              <td>{cert.certificateType}</td>
-                              <td>{cert.levelLanguage}</td>
-                              <td>{cert.submissionDate}</td>
-                              <td>
+                              <td className='tdr'>{cert.studentId}</td>
+                              <td className='tdr'>{cert.certificateType}</td>
+                              <td className='tdr'>{cert.levelLanguage}</td>
+                              <td className='tdr'>{cert.submissionDate}</td>
+                              <td className='tdr'>
                                 <Link className='btn btn-sm btn-outline-info' to={`/obtaincerts/edit/${cert.studentId}/${cert.certificateType}`}>Edit</Link>
                                 <button onClick={e =>deleteCert(cert.studentId, cert.certificateType, e)} className='btn btn-sm btn-outline-danger'>Delete</button>
                               </td>

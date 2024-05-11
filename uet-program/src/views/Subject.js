@@ -50,25 +50,25 @@ export default function Subject() {
         <div className='container pt-5'>
             <br></br>
             <h1 className="text-center">Subject page</h1>
-            <table className="table table-hover table-bordered table-info">
+            <table className="tabler">
               <thead>
-                <tr className='table-primary'>
-                  <th scope="col">SubjectID</th>
-                  <th scope="col">SubjectName</th>
-                  <th scope="col">Credit</th>
-                  <th scope="col" className="text-wrap">Prerequisite Subject</th>
-                  <th scope="col">Change</th>
+                <tr className='trr'>
+                  <th scope="col" className="thr">SubjectID</th>
+                  <th scope="col" className="thr">SubjectName</th>
+                  <th scope="col" className="thr">Credit</th>
+                  <th scope="col" className="thr text-wrap">Prerequisite Subject</th>
+                  <th scope="col" className="thr">Change</th>
                 </tr>
               </thead >
               {
                 subjectList.map((subject, idx) => {
                     return <tbody key={idx}>
                       <tr>
-                        <th scope="row">{subject.subjectid}</th>
-                        <td>{subject.subjectName}</td>
-                        <td>{subject.credit}</td>
-                        <td className="text-wrap">{subject.prerequisiteSubjectId.join(', ')}</td>
-                        <td>
+                        <td className='tdr'>{subject.subjectid}</td>
+                        <td className='tdr'>{subject.subjectName}</td>
+                        <td className='tdr'>{subject.credit}</td>
+                        <td className='tdr'>{subject.prerequisiteSubjectId.join(', ')}</td>
+                        <td className='tdr'>
                         <Link className='btn btn-sm btn-outline-info' to={`/subjects/edit/${subject.subjectid}`}>Edit</Link>
                         <button onClick={e => deleteSubject(subject.subjectid, e)} className='btn btn-outline-danger btn-sm'>Delete</button>
                         </td>
